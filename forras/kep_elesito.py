@@ -44,6 +44,9 @@ for f in sorted(glob.glob(os.path.join(SRC, '*.png'))):
     kz = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (int(T*0.9)|1, int(T*0.9)|1))
     ink_b = cv2.morphologyEx(ink_b, cv2.MORPH_CLOSE, kz)
     fg_b = np.maximum(smooth_mask(fg, T), ink_b)
+    # kék/szürke "glória" levágása a körvonalon kívül (az eredeti élsimított pixelei)
+    ke = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (int(T*2.2)|1, int(T*2.2)|1))
+    fg_b = np.maximum(cv2.erode(fg_b, ke), ink_b)
     if os.path.basename(f) in os.environ.get("RING", "").split(","):
         fg_b = smooth_mask(fg, T, sigma=1.3)
         kr = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (int(T*1.2)|1, int(T*1.2)|1))

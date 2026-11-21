@@ -1,55 +1,57 @@
 // =====================================================================
 //  KÉK CICA – BEÁLLÍTÁSOK
-//  Ezt a fájlt nyugodtan írd át: itt van a dátum és a napi cetlik.
+//  Ezt a fájlt nyugodtan írd át: itt van a dátum, a becenevek és a napi cetlik.
 // =====================================================================
 
 window.BEALLITASOK = {
-    // Mióta vagytok együtt? Formátum: "ÉÉÉÉ-HH-NN", pl. "2024-02-14".
-    // Ha null marad, az appban (⚙️ Beállítások) is meg lehet adni.
+    // Mióta vagytok együtt? Formátum: "ÉÉÉÉ-HH-NN"
     kezdoDatum: "2025-04-26",
 
-    // Napi titkos cetlik. Minden nap a következő nyílik ki, sorban.
-    // Ha a végére ér, elölről kezdi. Írd át őket a saját szavaidra! 💙
+    // Becenevek: a cica ezek közül választ, amikor megszólítja (a szövegekben {nev}).
+    becenevek: ["Cuki", "Hehi", "Szívem"],
+
+    // Napi titkos cetlik (reggeli jókívánságok). Minden nap a következő nyílik ki, sorban.
+    // Ha a végére ér, elölről kezdi. Írhatsz bele {nev}-et is, akkor véletlen becenév kerül oda.
     cetlik: [
-        "Ma is te vagy a kedvenc emberem. 💙",
-        "Tudtad, hogy amikor mosolyogsz, a világ egy kicsit szebb lesz? Én tudom. 😊",
-        "Ha nehéz napod van: ölelés jár. Most rögtön. 🤗",
-        "Valaki ma nagyon gondol rád. (Psszt, nem csak én.) 💌",
-        "Büszke vagyok rád. Akkor is, ha ma csak annyi sikerült, hogy felkeltél. ✨",
-        "Ma igyál elég vizet, és simogass meg legalább egyszer. Ez parancs. 😼",
-        "Te vagy a legpuhább ember a világon. Én csak tudom, cica vagyok. 🐾",
-        "Ha most ott lennék, a válladra kucorodnék. 💤",
-        "Minden nap egy kicsit jobban szeretlek. Ez a mai adag. 💖",
-        "Emlékeztető: gyönyörű vagy. Ma is. Holnap is. 🌷",
-        "Vegyél egy mély levegőt. Minden rendben lesz. Itt vagyok. 🫶",
-        "Ma kérj tőle egy nagy ölelést. Tőlem üzenem. 😽",
-        "Te vagy az oka, hogy ennyit dorombolok. 💕",
-        "A mai nap szuperereje: a mosolyod. Használd bátran! ⚡",
-        "Ha ma valaki bánt, szólj, és megkarmolom. 😾 (Óvatosan.)",
-        "Köszönöm, hogy ilyen kedves vagy mindenkivel. Velem is. 🐟",
-        "Nem kell tökéletesnek lenned. Így vagy a legjobb. 💙",
-        "Ma este bújjatok össze egy filmmel. A cica is jön. 🎬",
-        "Az a nevetésed... na, azt kérem ma is! 😹",
-        "Csak szólok, hogy valaki már most hiányol. 🥺",
-        "Te vagy a kedvenc napsugaram, amiben szundikálni szeretek. ☀️",
-        "Ma pihenj egy kicsit többet. Megérdemled. 🛋️",
-        "Szép vagy, okos vagy, és nagyon-nagyon szeretve vagy. Ennyi. 💌",
-        "Ha néha összezörrentek: puszi és simi mindent megold. 😘",
-        "Mai feladat: egy közös szelfi. Gondolatban én is rajta leszek. 📸",
-        "A szíved a legjobb dolog, amit valaha láttam. És láttam már halat is. 🐟💖",
-        "Bármi lesz ma, este valaki szeretettel vár. 🏡",
-        "Ma te vagy a főszereplő. Én csak a cuki mellékszereplő. 🎀",
-        "Tudod, mi a kedvencem? Amikor rám nézel és mosolyogsz. 😊",
-        "A kicsi lépések is lépések. Szurkolok neked! 📣",
-        "Hoztam neked egy virágot a mai napra. 🌷 (Képzeld el, hogy a számban hozom.)",
-        "Ha fázol, bújj a takaró alá. Én már ott vagyok. 🧸",
-        "Ne felejtsd el: valaki szerint te vagy a világ legjobb dolga. 💞",
-        "A mai szerencseszámod: végtelen. Pont annyi, ahányszor szeretünk. ♾️",
-        "Hiányzol, pedig most is itt vagy velem a telefonodban. 🐾",
-        "Ma megérdemelsz egy forró csokit. Vagy kettőt. ☕",
-        "Minden, amit csinálsz, egy kicsit varázslatos. ✨",
-        "Csukd be a szemed három másodpercre, és képzelj el egy nagy ölelést. Megvolt? 🤗",
-        "Te vagy a kedvenc emberem. Bocsi, minden más ember. 😽",
-        "Holnap is jövök egy cetlivel. Addig is: szeretlek! 💙"
+        "Jó reggelt, Cuki! Legyen ma egy nagyon szép napod! ☀️",
+        "Jó reggelt, Szívem! Ma minden sikerülni fog, hiszek benned. 💙",
+        "Szép napot, Hehi! Ne felejts el ma sokat mosolyogni. 😊",
+        "Jó reggelt! Valaki már most nagyon gondol rád. 💌",
+        "Sok sikert a mai naphoz, Cuki! Ügyes leszel. 💪",
+        "Jó reggelt, Szívem! Igyál elég vizet, és vigyázz magadra. 💧",
+        "Legyen ma minden pont olyan, amilyennek szeretnéd, Hehi! ✨",
+        "Jó reggelt! Remélem, jól aludtál, és szépeket álmodtál. 🌙",
+        "Szép napot, Cuki! Minden nap egy kicsit jobban szeretlek. 💖",
+        "Jó reggelt, Szívem! Ma is gyönyörű vagy. 🌷",
+        "Ha ma valami nehéz lesz, gondolj arra, hogy valaki mindig melletted áll. 🫶",
+        "Jó reggelt, Hehi! Ma jár neked egy nagy ölelés. 🤗",
+        "Legyen ma egy nyugodt, kedves napod, Cuki! 🍀",
+        "Jó reggelt! A mai nap szuperereje: a mosolyod. ⚡",
+        "Szép napot, Szívem! Nagyon büszke vagyok rád. ✨",
+        "Jó reggelt, Cuki! Ma csak jó dolgok történjenek veled. 🌈",
+        "Nem kell ma tökéletesnek lenned, Hehi. Így vagy a legjobb. 💙",
+        "Jó reggelt! Este valaki már nagyon vár rád. 🏡",
+        "Szép napot, Szívem! Nevess ma sokat. 😹",
+        "Jó reggelt, Cuki! Ma is te vagy a kedvenc emberem. 💕",
+        "Legyen ma sok apró öröm a napodban, Hehi! 🌼",
+        "Jó reggelt, Szívem! Ne felejts el ma rendesen enni. 🥐",
+        "Szép napot! Okos vagy, ügyes vagy, és nagyon szeretlek. 💌",
+        "Jó reggelt, Cuki! Ma is szurkolok neked. 📣",
+        "Kívánok neked egy könnyű, vidám napot, Hehi! 🎈",
+        "Jó reggelt, Szívem! Hoztam neked egy virágot a mai napra. 🌷",
+        "Szép napot, Cuki! Ma te vagy a főszereplő. 🎀",
+        "Jó reggelt! Remélem, ma valami nagyon jó dolog történik veled. 🍀",
+        "Legyen ma sok erőd és sok türelmed, Szívem! 💪",
+        "Jó reggelt, Hehi! A kis lépések is számítanak. Ügyes vagy. 🐾",
+        "Szép napot, Cuki! Ma is sokat fogok rád gondolni. 💞",
+        "Jó reggelt, Szívem! Ma megérdemelsz egy finom kávét. ☕",
+        "Legyen ma minden könnyebb, mint gondolnád, Hehi! ✨",
+        "Jó reggelt, Cuki! Ma ne hajtsd túl magad, a pihenés is fontos. 🌿",
+        "Szép napot, Szívem! Szerencsés vagyok, hogy vagy nekem. 💖",
+        "Jó reggelt! Kívánom, hogy ma sokat nevess és keveset aggódj. 😊",
+        "Jó reggelt, Hehi! Ma is ragyogni fogsz. 🌟",
+        "Szép napot, Cuki! Már alig várom, hogy újra lássalak. 🥹",
+        "Jó reggelt, Szívem! Küldök egy nagy puszit a napod elejére. 😘",
+        "Szép napot, Hehi! Holnap is jövök egy cetlivel. Szeretlek! 💙"
     ]
 };
