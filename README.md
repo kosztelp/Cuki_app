@@ -5,7 +5,7 @@ Egy kis kék cica a telefon kezdőképernyőjén, aki szeretetre vágyik.
 ## Mit tud?
 
 - 👆 **Simogatás:** az ujjadat húzd végig a cicán. Közben dorombol, és ha eleget simogatod, boldog lesz.
-- ❤️ **Szeretet-roham**, 😢 **szomorítás**, 🐟 **etetés** (20 percenként), 🧶 **játék a gombolyaggal**.
+- ❤️ **Szeretet**, 😴 **altatás** (eepy, simogatással ébred), 🐟 **etetés** (20 percenként; 5 óra után „éhes”), 🧶 **játék a gombolyaggal**.
 - ⏰ **Emlékszik:** egy óra simogatás nélkül elszomorodik. Ha sokáig nem jössz, megmondja, hogy hiányoztál.
 - 💌 **Napi cetli:** minden nap egy új titkos üzenet nyílik ki.
 - 💞 **Együtt X napja:** évfordulón, hónapfordulón és minden 100. napon konfetti jár.
@@ -24,7 +24,8 @@ Egy kis kék cica a telefon kezdőképernyőjén, aki szeretetre vágyik.
 Mindent a **`beallitasok.js`** fájlban találsz:
 
 - `kezdoDatum`: mióta vagytok együtt, pl. `"2024-02-14"`. Az appban is beállítható (⚙️).
-- `cetlik`: a napi üzenetek listája. Írd át őket a saját szavaidra!
+- `becenevek`: Cuki, Hehi, Szívem – a cica ezekkel szólítja meg.
+- `cetlik`: a napi reggeli üzenetek listája. Írd át őket a saját szavaidra!
 
 ## Telepítés iPhone-ra
 

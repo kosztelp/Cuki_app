@@ -35,31 +35,35 @@
         "szomoru_shy1.png":       { x: 50, y: 21, w: 48, r: -5 },
         "szomoru_shy2.png":       { x: 37, y: 13, w: 45, r: -8 },
         "szomoru_takaro.png":     { x: 52, y: 41, w: 28, r: -5 },
-        "alvo_parna.png":         { x: 50, y: 41, w: 27, r: -6 },
-        "boldog_gombolyag.png":   { x: 40, y: 18, w: 37, r: -8 },
-        "boldog_hal.png":         { x: 44, y: 20, w: 41, r: -8 },
-        "boldog_level.png":       { x: 44, y: 20, w: 41, r: -8 },
-        "boldog_puszi_kuld.png":  { x: 43, y: 27, w: 40, r: -8 },
-        "karacsony_ajandek.png":  { x: 44, y: 20, w: 41, r: -8 },
-        "reggel_integet.png":     { x: 50, y: 36, w: 35, r: -8 },
-        "szomoru_konnyes.png":    { x: 44, y: 20, w: 41, r: -8 }
+        "alvo_parna.png":         { x: 50, y: 44, w: 29, r: -6 },
+        "boldog_gombolyag.png":   { x: 52, y: 17, w: 41, r: -8 },
+        "boldog_hal.png":         { x: 44, y: 19, w: 44, r: -8 },
+        "boldog_level.png":       { x: 44, y: 19, w: 44, r: -8 },
+        "boldog_puszi_kuld.png":  { x: 43, y: 25, w: 43, r: -8 },
+        "karacsony_ajandek.png":  { x: 44, y: 19, w: 44, r: -8 },
+        "reggel_integet.png":     { x: 50, y: 35, w: 37, r: -8 },
+        "szomoru_konnyes.png":    { x: 44, y: 19, w: 44, r: -8 }
         // az unnep_parti.png-n partisapka van, oda nem kell mikulássapka
     };
 
+    // {nev} helyére véletlenszerűen az egyik becenév kerül (beallitasok.js)
     const SZ = {
-        szomoru: ["Szeretetre vágyom... 🥺", "Picit egyedül érzem magam.. 👉👈", "Bújj oda hozzám! 🥱", "Hiányzik a simi... 🥺"],
-        boldog: ["Szeretlek! 🥰", "Juhúú, ez az! 💖", "Jippii 🥰", "Köszii! Miau! ✨", "Ez nagyon jóóó! 😻"],
-        karacsonyBoldog: ["Boldog karácsonyt! 🎄💙", "Hó-hó-hóóó! 🎅", "Te vagy a legszebb ajándékom! 🎁"],
-        reggel: ["Jó reggelt! ☀️ Kérek egy reggeli simit!", "Jó reggelt, napsugár! 🌞", "Ásít... jó reggelt! 🥱☀️"],
-        este: ["Szép estét! 🌙 Bújunk?", "Esti simi jöhet? 🌙💕"],
-        alszik: ["Pszt... alszom 💤", "Zzz... 😴", "Pszt, a cica alszik 🌙"],
-        ebredes: ["Mmm... még 5 perc 😴", "Jó, jó, ébren vagyok... 🥱", "Ki simogat ilyenkor? 🥹"],
+        szomoru: ["szeress 🥺", "szeress pls 👉👈", "szeress, {nev} 🥺💙", "Szeretetre vágyom... 🥺", "Hiányzik a simi, {nev}... 🥺"],
+        ehes: ["éhes 🥺", "éhes 🐟🥺", "éhes... 👉👈", "{nev}, éhes 🥺🐟"],
+        eepy: ["eepy 😴", "eepy... 💤", "nagyon eepy 🥱", "eepy, jó éjt, {nev} 💤"],
+        boldog: ["Szeretlek, {nev}! 🥰", "Juhúú, ez az! 💖", "Jippii 🥰", "Köszii! Miau! ✨", "Ez nagyon jóóó! 😻", "Te vagy a kedvencem, {nev}! 💕"],
+        karacsonyBoldog: ["Boldog karácsonyt, {nev}! 🎄💙", "Hó-hó-hóóó! 🎅", "Te vagy a legszebb ajándékom, {nev}! 🎁"],
+        reggel: ["Jó reggelt, {nev}! ☀️", "Jó reggelt, {nev}! Szép napot! 🌞", "Ásít... jó reggelt, {nev}! 🥱☀️"],
+        este: ["Szép estét, {nev}! 🌙", "Esti simi jöhet, {nev}? 🌙💕"],
+        alszik: ["Pszt... alszom 💤", "eepy... 💤", "Zzz... 😴", "Pszt, a cica alszik 🌙"],
+        ebredes: ["Mmm... még 5 perc 😴", "Jó, jó, ébren vagyok... 🥱", "eepy... de simogathatsz 🥹"],
         simiSzomoru: ["Ooo, ez jóóó... 😊", "Még, még! 🥹", "Már majdnem... ⚡"],
         simiBoldog: ["Rrrrrr... 💕", "Úgy szeretem, ha simogatsz! 🥰", "Még kérek simit! 😇", "Dorombolok! 😻"],
         bokes: ["Húzd rajtam az ujjad, úgy simogass! 👆", "Ne bökj, simogass! 🐾", "Hihi, csikis! De simogatni kell 👆"],
-        etetes: ["Nyam-nyam! 🐟", "Hmm, isteni hal! 😋", "Köszi a vacsit! 🐟💖"],
-        tele: ["Már tele a pocim! 🐟💤", "Most nem fér több belém 😅", "Majd később, jó? 🐟"],
+        etetes: ["Nyam-nyam! 🐟", "Már nem vagyok éhes! 😋", "Köszi a halat, {nev}! 🐟💖"],
+        tele: ["Már nem vagyok éhes! 🐟", "Most nem fér több belém 😅", "Majd később, jó? 🐟"],
         jatek: ["Elkapom! 🧶", "Hihi, megvan! 😹", "Még egyszer! 🧶✨"],
+        szeretet: ["Én is szeretlek, {nev}! ❤️", "Szeretet-roham! ❤️🔥", "Ez kellett! Szeretlek! 💖"],
         elsoSimi: "Simogass meg: húzd rajtam az ujjad! 👆"
     };
 
@@ -85,6 +89,7 @@
             cetliNyitva: null,
             kezdoDatum: null,
             hang: true,
+            altatva: 0,
             utolsoEtetes: 0,
             simiOsszes: 0,
             unnepeltNap: null
@@ -333,15 +338,20 @@
         return uj;
     }
 
+    // A régi szöveget teljesen kicseréljük (nem áttűnéssel), mert iPhone-on
+    // az áttűnés miatt a régi és új szöveg egymásra rajzolódott.
     let utolsoSzoveg = "";
     function mond(szoveg) {
         if (szoveg === utolsoSzoveg) return;
         utolsoSzoveg = szoveg;
-        statusText.classList.add("halkit");
-        setTimeout(() => {
-            statusText.textContent = szoveg;
-            statusText.classList.remove("halkit");
-        }, 120);
+        const span = document.createElement("span");
+        span.textContent = nevvel(szoveg);
+        statusText.replaceChildren(span);
+    }
+
+    function nevvel(sz) {
+        const nevek = (B.becenevek && B.becenevek.length) ? B.becenevek : ["Cuki"];
+        return sz.replace(/\{nev\}/g, () => randomElem(nevek));
     }
 
     function ugrasAnimacio() {
@@ -356,8 +366,21 @@
     }
 
     // ======================= HANGULAT =======================
+    const ALTATAS_HOSSZ = 8 * ORA;
+    function altatvaVan() {
+        return !!A.altatva && most() - A.altatva < ALTATAS_HOSSZ;
+    }
     function alszik() {
-        return !A.boldog && napszak() === "ejjel";
+        return !A.boldog && (napszak() === "ejjel" || altatvaVan());
+    }
+    const EHSEG = 5 * ORA;
+    function ehes() {
+        return most() - (A.utolsoEtetes || 0) > EHSEG;
+    }
+    function szomoruSzoveg() {
+        if (alszik()) return randomElem(altatvaVan() ? SZ.eepy : SZ.alszik);
+        if (ehes() && Math.random() < 0.5) return randomElem(SZ.ehes);
+        return randomElem(SZ.szomoru);
     }
 
     function szomoruraValt(szoveg, kep) {
@@ -365,12 +388,13 @@
         simiLepesek = 0;
         ment();
         kepBeallit(kep || (alszik() ? randomElem(alvoKepek) : randomElem(szomoruKepek)));
-        mond(szoveg || (alszik() ? randomElem(SZ.alszik) : randomElem(SZ.szomoru)));
+        mond(szoveg || szomoruSzoveg());
         alvasFrissit();
     }
 
     function boldograValt(szoveg, kep) {
         A.boldog = true;
+        A.altatva = 0;
         A.utolsoSzeretet = most();
         A.utolsoLatogatas = most();
         simiLepesek = 0;
@@ -403,7 +427,7 @@
         }
         if (!szoveg && A.simiOsszes === 0) szoveg = SZ.elsoSimi;
         if (!szoveg && !A.boldog) {
-            if (nsz === "ejjel") szoveg = randomElem(SZ.alszik);
+            if (alszik()) szoveg = null;
             else if (nsz === "reggel" && elteltLatogatas > 3 * ORA) { szoveg = randomElem(SZ.reggel); kep = K.reggel; }
             else if (elteltLatogatas > 3 * ORA) szoveg = hianyzasSzoveg(elteltLatogatas);
             else if (elsoBetoltes && nsz === "reggel") { szoveg = randomElem(SZ.reggel); kep = K.reggel; }
@@ -439,6 +463,9 @@
         const nsz = napszak();
         if (A.boldog && most() - A.utolsoSzeretet > ORA) {
             szomoruraValt();
+        } else if (A.altatva && !altatvaVan()) {
+            A.altatva = 0;
+            if (!A.boldog) szomoruraValt();
         } else if (nsz !== utolsoNapszak) {
             napszakAlkalmaz();
             if (!A.boldog) szomoruraValt();
@@ -653,13 +680,16 @@
         for (let i = 0; i < 5; i++) setTimeout(() => szivecske(), i * 100);
         Hang.miau();
         rezges(20);
-        if (karacsonyVan()) boldograValt("Karácsonyi szeretet-roham! 🎄❤️", Math.random() < 0.5 ? K.karacsony : null);
-        else boldograValt("AZONNALI SZERETET-ROHAM! ❤️🔥");
+        if (karacsonyVan() && Math.random() < 0.5) boldograValt("Karácsonyi szeretet-roham! 🎄❤️", K.karacsony);
+        else boldograValt(randomElem(SZ.szeretet));
     });
 
+    // Alvás gomb: a cica elalszik (eepy), simogatással lehet felébreszteni
     $("sadBtn").addEventListener("click", () => {
         ugrasAnimacio();
-        szomoruraValt();
+        A.boldog = false;
+        A.altatva = most();
+        szomoruraValt(randomElem(SZ.eepy), randomElem(alvoKepek));
     });
 
     // Etetés
@@ -753,7 +783,7 @@
     $("cetliGomb").addEventListener("click", () => {
         const i = maiCetliIndex();
         const lista = B.cetlik || [];
-        $("cetliSzoveg").textContent = i >= 0 ? lista[i] : "Ma nincs cetli... de attól még szeretlek! 💙";
+        $("cetliSzoveg").textContent = i >= 0 ? nevvel(lista[i]) : "Ma nincs cetli... de attól még szeretlek! 💙";
         $("cetliSzam").textContent = i >= 0 ? `#${i + 1}` : "";
         const mar = A.cetliNyitva === datumKulcs();
         $("boritek").hidden = mar;
