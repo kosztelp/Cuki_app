@@ -2,297 +2,129 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Kék Cica Szeretet Widget</title>
-    
+
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#f0f4f8">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Kék Cica">
 
-    <style>
-        :root {
-            --bg-color: #f0f4f8;
-            --widget-bg: #ffffff;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-color);
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-            user-select: none;
-        }
-
-        .widget-container {
-            width: 320px;
-            height: 320px;
-            background-color: var(--widget-bg);
-            border-radius: 28px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            padding: 24px;
-            box-sizing: border-box;
-            position: relative;
-        }
-
-        .cica-box {
-            width: 150px;
-            height: 150px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .cica-img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            transition: transform 0.2s ease;
-        }
-
-        .cica-box:hover .cica-img {
-            transform: scale(1.05);
-        }
-        
-        .cica-box:active .cica-img {
-            transform: scale(0.95);
-        }
-
-        .float-animation {
-            animation: floating 3s ease-in-out infinite;
-        }
-
-        @keyframes floating {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-6px); }
-            100% { transform: translateY(0px); }
-        }
-
-        .pop-animation {
-            animation: pop 0.25s ease-out;
-        }
-
-        @keyframes pop {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.15); }
-            100% { transform: scale(1); }
-        }
-
-        .status-text {
-            font-size: 15px;
-            font-weight: 600;
-            color: #486581;
-            text-align: center;
-            margin: 6px 0;
-            height: 20px;
-        }
-
-        .button-row {
-            display: flex;
-            gap: 20px;
-        }
-
-        .btn {
-            border: none;
-            border-radius: 50%;
-            width: 54px;
-            height: 54px;
-            font-size: 22px;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            outline: none;
-            transition: transform 0.1s ease;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .btn:active {
-            transform: scale(0.9);
-        }
-
-        .heart-button {
-            background: #ff4a7a;
-            color: white;
-            box-shadow: 0 4px 12px rgba(255, 74, 122, 0.25);
-        }
-
-        .sad-button {
-            background: #4a90e2;
-            color: white;
-            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.25);
-        }
-
-        .floating-heart {
-            position: absolute;
-            color: #ff4a7a;
-            font-size: 20px;
-            pointer-events: none;
-            animation: flyUp 0.8s ease-out forwards;
-            z-index: 10;
-        }
-
-        @keyframes flyUp {
-            0% { opacity: 1; transform: translate(0, 0) scale(1); }
-            100% { opacity: 0; transform: translate(var(--x), -70px) scale(1.3); }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="napszak-nappal">
 
-    <div class="widget-container">
+    <!-- Háttér: csillagok és hóesés -->
+    <div class="hatter-reteg" id="csillagok" aria-hidden="true"></div>
+    <div class="hatter-reteg" id="hoeses" aria-hidden="true"></div>
+
+    <main class="widget-container" id="widget">
+        <div class="felso-sor">
+            <button class="egyutt-pill" id="egyuttPill" type="button">💞 Mióta vagytok együtt?</button>
+            <button class="ikon-gomb cetli-gomb" id="cetliGomb" type="button" aria-label="Mai cetli">
+                💌<span class="piros-pont" id="cetliPont"></span>
+            </button>
+        </div>
+
         <div class="cica-box" id="cicaBox">
-            <img src="" id="cicaImage" class="cica-img float-animation" alt="Cica">
+            <div class="ugro" id="ugro">
+                <div class="lebego">
+                    <div class="kep-keret" id="kepKeret">
+                        <img src="" id="cicaImage" class="cica-img" alt="Kék cica" draggable="false">
+                        <svg class="sapka" id="sapka" viewBox="0 0 100 90" aria-hidden="true">
+                            <path d="M12 70 C 24 34, 52 6, 86 20 C 78 30, 72 44, 78 70 Z" fill="#e8455a" stroke="#222" stroke-width="3.5" stroke-linejoin="round"/>
+                            <path d="M30 52 C 40 36, 56 24, 70 22" fill="none" stroke="#ff8a9a" stroke-width="3" stroke-linecap="round" opacity=".7"/>
+                            <rect x="5" y="62" width="84" height="18" rx="9" fill="#fff" stroke="#222" stroke-width="3.5"/>
+                            <circle cx="87" cy="21" r="9" fill="#fff" stroke="#222" stroke-width="3.5"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="status-text" id="statusText">Betöltés...</div>
 
         <div class="button-row">
-            <button class="btn sad-button" id="sadBtn">😢</button>
-            <button class="btn heart-button" id="heartBtn">❤️</button>
+            <button class="btn sad-button" id="sadBtn" type="button" aria-label="Szomorú">😢</button>
+            <button class="btn hal-button" id="halBtn" type="button" aria-label="Etetés">🐟</button>
+            <button class="btn jatek-button" id="jatekBtn" type="button" aria-label="Játék">🧶</button>
+            <button class="btn heart-button" id="heartBtn" type="button" aria-label="Szeretet">❤️</button>
+        </div>
+
+        <div class="also-sor">
+            <button class="szoveg-gomb" id="matricaGomb" type="button">🖼️ Matricáim</button>
+            <span class="pont-elvalaszto">·</span>
+            <button class="szoveg-gomb" id="hangGomb" type="button">🔊 Hang</button>
+            <span class="pont-elvalaszto">·</span>
+            <button class="szoveg-gomb" id="beallitasGomb" type="button">⚙️</button>
+        </div>
+    </main>
+
+    <!-- Napi cetli -->
+    <div class="lap-hatter" id="cetliLap" hidden>
+        <div class="lap cetli-lap">
+            <button class="bezar" data-bezar type="button" aria-label="Bezárás">✕</button>
+            <div class="boritek" id="boritek">
+                <div class="boritek-ikon">💌</div>
+                <div class="boritek-szoveg">Mai cetli a cicától<br><small>Koppints a kinyitáshoz!</small></div>
+            </div>
+            <div class="level" id="level" hidden>
+                <div class="level-fejlec">Mai cetli a cicától <span id="cetliSzam"></span></div>
+                <p class="level-szoveg" id="cetliSzoveg"></p>
+                <div class="level-alairas">– Kék Cica 🐾</div>
+            </div>
         </div>
     </div>
 
-    <script>
-        // Pontosan a te mappádban lévő nevek:
-        const szomoruKepek = ["szomoru_shy1.png", "szomoru_shy2.png", "szomoru_takaro.png"];
-        const boldogKepek = [
-            "boldog_sziv_mogott.png", "boldog_sziv_tart.png", "boldog_puszi.png", 
-            "boldog_oleles2.png", "boldog_oleles1.png", "boldog_sziv_olel.png", 
-            "boldog_virag_par.png", "boldog_virag.png"
-        ];
+    <!-- Matricák -->
+    <div class="lap-hatter" id="matricaLap" hidden>
+        <div class="lap">
+            <button class="bezar" data-bezar type="button" aria-label="Bezárás">✕</button>
+            <h2>🖼️ Matricáim</h2>
+            <p class="halvany">A saját matricáid is felbukkannak, amikor a cica boldog. 💖</p>
+            <div class="matrica-racs" id="matricaRacs"></div>
+            <div class="lap-gombok">
+                <label class="nagy-gomb">
+                    ➕ Kép kiválasztása
+                    <input type="file" id="matricaInput" accept="image/*" multiple hidden>
+                </label>
+                <button class="nagy-gomb masodlagos" id="beillesztGomb" type="button">📋 Beillesztés</button>
+            </div>
+            <p class="uzenet" id="matricaUzenet"></p>
+            <details class="tipp">
+                <summary>Hogyan rakjak be Apple-matricát?</summary>
+                <ol>
+                    <li>A Fotók appban nyomd hosszan a képen a figurát (pl. egy cicát).</li>
+                    <li>A felugró menüben válaszd a <b>Másolás</b>t.</li>
+                    <li>Gyere vissza ide, és nyomd meg a <b>📋 Beillesztés</b> gombot.</li>
+                </ol>
+                <p>Ha a beillesztés nem megy, a <b>➕ Kép kiválasztása</b> gombbal egy sima képet is választhatsz. Ha egyszínű (pl. fehér) a háttere, a cica megpróbálja magától kivágni. ✂️</p>
+            </details>
+        </div>
+    </div>
 
-        const szomoruSzovegek = ["Szeretetre vágyom... 🥺", "Picit egyedül érzem magam.. 👉👈", "Bújj oda hozzám! 🥱"];
-        const boldogSzovegek = ["Szeretlek! 🥰", "Juhúú, ez az! 💖", "Jippii 🥰", "Köszii! Miau! ✨", "Ez nagyon jóóó! 😻"];
+    <!-- Beállítások -->
+    <div class="lap-hatter" id="beallitasLap" hidden>
+        <div class="lap">
+            <button class="bezar" data-bezar type="button" aria-label="Bezárás">✕</button>
+            <h2>⚙️ Beállítások</h2>
+            <label class="mezo">
+                <span>💞 Mióta vagytok együtt?</span>
+                <input type="date" id="datumInput">
+            </label>
+            <p class="halvany" id="egyuttReszlet"></p>
+            <div class="lap-gombok">
+                <button class="nagy-gomb" id="beallitasMentes" type="button">Mentés</button>
+            </div>
+        </div>
+    </div>
 
-        const cicaImage = document.getElementById('cicaImage');
-        const cicaBox = document.getElementById('cicaBox');
-        const statusText = document.getElementById('statusText');
-        const heartBtn = document.getElementById('heartBtn');
-        const sadBtn = document.getElementById('sadBtn');
+    <div class="konfetti-reteg" id="konfetti" aria-hidden="true"></div>
 
-        let cicaKattintasok = 0;
-        let mostBoldog = false;
-        let idozito;
-
-        function randomElem(tomb) {
-            return tomb[Math.floor(Math.random() * tomb.length)];
-        }
-
-        function inditElszomorodoIdozito() {
-            clearTimeout(idozito);
-            idozito = setTimeout(() => {
-                if (mostBoldog) {
-                    cicaSzomoruraValt();
-                }
-            }, 3600000); // 1 óra
-        }
-
-        function cicaSzomoruraValt() {
-            clearTimeout(idozito);
-            mostBoldog = false;
-            cicaKattintasok = 0;
-            cicaImage.src = randomElem(szomoruKepek);
-            statusText.innerText = randomElem(szomoruSzovegek);
-            cicaImage.classList.add('float-animation');
-        }
-
-        function cicaBoldograValt(szoveg) {
-            mostBoldog = true;
-            cicaKattintasok = 0;
-            
-            let ujKep = randomElem(boldogKepek);
-            if (cicaImage.src.includes(ujKep) && boldogKepek.length > 1) {
-                ujKep = boldogKepek.find(k => !cicaImage.src.includes(k)) || ujKep;
-            }
-            
-            cicaImage.src = ujKep;
-            statusText.innerText = szoveg;
-            
-            inditElszomorodoIdozito();
-        }
-
-        function ugrasAnimacio() {
-            cicaImage.classList.remove('float-animation');
-            cicaImage.classList.add('pop-animation');
-            setTimeout(() => {
-                cicaImage.classList.remove('pop-animation');
-                cicaImage.classList.add('float-animation');
-            }, 250);
-        }
-
-        cicaBox.addEventListener('click', (e) => {
-            cicaKattintasok++;
-            ugrasAnimacio();
-
-            if (!mostBoldog) {
-                if (cicaKattintasok === 1) {
-                    statusText.innerText = "Ez jólesett... picit még! 😊";
-                } else if (cicaKattintasok === 2) {
-                    statusText.innerText = "Már majdnem... egy utolsót! ⚡";
-                } else if (cicaKattintasok >= 3) {
-                    createFloatingHeart(e);
-                    cicaBoldograValt(randomElem(boldogSzovegek));
-                }
-            } 
-            else {
-                inditElszomorodoIdozito();
-                
-                if (cicaKattintasok === 1) {
-                    statusText.innerText = "Úgy szeretem, ha simogatsz! 🥰";
-                } else if (cicaKattintasok === 2) {
-                    statusText.innerText = "Még kérek simit! 😇";
-                } else if (cicaKattintasok >= 3) {
-                    createFloatingHeart(e);
-                    cicaBoldograValt("Átváltozááás! " + randomElem(boldogSzovegek));
-                }
-            }
-        });
-
-        heartBtn.addEventListener('click', (e) => {
-            ugrasAnimacio();
-            for (let i = 0; i < 4; i++) {
-                setTimeout(() => createFloatingHeart(e), i * 100);
-            }
-            cicaBoldograValt("AZONNALI SZERETET-ROHAM! ❤️🔥");
-        });
-
-        sadBtn.addEventListener('click', () => {
-            ugrasAnimacio();
-            cicaSzomoruraValt();
-        });
-
-        function createFloatingHeart(e) {
-            const heart = document.createElement('div');
-            heart.classList.add('floating-heart');
-            heart.innerText = '❤️';
-            
-            const randomX = (Math.random() - 0.5) * 80;
-            heart.style.setProperty('--x', `${randomX}px`);
-            
-            heart.style.left = `calc(50% - 10px)`;
-            heart.style.top = `40%`;
-
-            cicaBox.appendChild(heart);
-
-            setTimeout(() => {
-                heart.remove();
-            }, 800);
-        }
-
-        cicaSzomoruraValt();
-    </script>
+    <script src="beallitasok.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
