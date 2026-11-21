@@ -6,7 +6,7 @@
 window.BEALLITASOK = {
     // Mióta vagytok együtt? Formátum: "ÉÉÉÉ-HH-NN", pl. "2024-02-14".
     // Ha null marad, az appban (⚙️ Beállítások) is meg lehet adni.
-    kezdoDatum: null,
+    kezdoDatum: "2025-04-26",
 
     // Napi titkos cetlik. Minden nap a következő nyílik ki, sorban.
     // Ha a végére ér, elölről kezdi. Írd át őket a saját szavaidra! 💙

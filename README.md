@@ -14,6 +14,11 @@ Egy kis kék cica a telefon kezdőképernyőjén, aki szeretetre vágyik.
 - 🖼️ **Saját matricák:** fotóból vagy kimásolt Apple-matricából. Ha a kép háttere egyszínű, azt is kivágja.
 - 📴 Internet nélkül is működik.
 
+## Képek
+
+- Az eredeti 11 kép 6x nagyobb felbontású lett, éles körvonallal és átlátszó háttérrel (`forras/kep_elesito.py`).
+- 9 új kép készült ugyanebben a stílusban (`forras/uj_cicak_rajzolo.py`): halat eszik, gombolyaggal játszik, párnán alszik, reggel integet, cetlit hoz, partizik, ajándékot ad (decemberben), könnyes, puszit küld.
+
 ## Testreszabás
 
 Mindent a **`beallitasok.js`** fájlban találsz:

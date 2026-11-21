@@ -4,13 +4,22 @@
     const B = window.BEALLITASOK || {};
 
     // ======================= KÉPEK ÉS SZÖVEGEK =======================
-    const szomoruKepek = ["szomoru_shy1.png", "szomoru_shy2.png"];
-    const alvoKep = "szomoru_takaro.png";
+    const szomoruKepek = ["szomoru_shy1.png", "szomoru_shy2.png", "szomoru_konnyes.png"];
+    const alvoKepek = ["szomoru_takaro.png", "alvo_parna.png"];
     const boldogKepek = [
         "boldog_sziv_mogott.png", "boldog_sziv_tart.png", "boldog_puszi.png",
         "boldog_oleles2.png", "boldog_oleles1.png", "boldog_sziv_olel.png",
-        "boldog_virag_par.png", "boldog_virag.png"
+        "boldog_virag_par.png", "boldog_virag.png", "boldog_puszi_kuld.png"
     ];
+    // Különleges alkalmak képei
+    const K = {
+        hal: "boldog_hal.png",
+        gombolyag: "boldog_gombolyag.png",
+        level: "boldog_level.png",
+        reggel: "reggel_integet.png",
+        unnep: "unnep_parti.png",
+        karacsony: "karacsony_ajandek.png"
+    };
 
     // Mikulássapka helye képenként: x, y = a sapka karimájának közepe (a kép %-ában),
     // w = sapka szélessége (a kép szélességének %-ában), r = dőlés fokban.
@@ -25,7 +34,16 @@
         "boldog_virag_par.png":   { x: 81, y: 28, w: 24, r: -6 },
         "szomoru_shy1.png":       { x: 50, y: 21, w: 48, r: -5 },
         "szomoru_shy2.png":       { x: 37, y: 13, w: 45, r: -8 },
-        "szomoru_takaro.png":     { x: 52, y: 41, w: 28, r: -5 }
+        "szomoru_takaro.png":     { x: 52, y: 41, w: 28, r: -5 },
+        "alvo_parna.png":         { x: 50, y: 41, w: 27, r: -6 },
+        "boldog_gombolyag.png":   { x: 40, y: 18, w: 37, r: -8 },
+        "boldog_hal.png":         { x: 44, y: 20, w: 41, r: -8 },
+        "boldog_level.png":       { x: 44, y: 20, w: 41, r: -8 },
+        "boldog_puszi_kuld.png":  { x: 43, y: 27, w: 40, r: -8 },
+        "karacsony_ajandek.png":  { x: 44, y: 20, w: 41, r: -8 },
+        "reggel_integet.png":     { x: 50, y: 36, w: 35, r: -8 },
+        "szomoru_konnyes.png":    { x: 44, y: 20, w: 41, r: -8 }
+        // az unnep_parti.png-n partisapka van, oda nem kell mikulássapka
     };
 
     const SZ = {
@@ -304,7 +322,8 @@
     }
 
     function boldogKepLista() {
-        return boldogKepek.concat(Matricak.lista.map((m) => m.dataUrl));
+        const extra = karacsonyVan() ? [K.karacsony, K.karacsony] : [];
+        return boldogKepek.concat(extra, Matricak.lista.map((m) => m.dataUrl));
     }
 
     function ujBoldogKep() {
@@ -341,22 +360,22 @@
         return !A.boldog && napszak() === "ejjel";
     }
 
-    function szomoruraValt(szoveg) {
+    function szomoruraValt(szoveg, kep) {
         A.boldog = false;
         simiLepesek = 0;
         ment();
-        kepBeallit(alszik() ? alvoKep : randomElem(szomoruKepek));
+        kepBeallit(kep || (alszik() ? randomElem(alvoKepek) : randomElem(szomoruKepek)));
         mond(szoveg || (alszik() ? randomElem(SZ.alszik) : randomElem(SZ.szomoru)));
         alvasFrissit();
     }
 
-    function boldograValt(szoveg) {
+    function boldograValt(szoveg, kep) {
         A.boldog = true;
         A.utolsoSzeretet = most();
         A.utolsoLatogatas = most();
         simiLepesek = 0;
         ment();
-        kepBeallit(ujBoldogKep());
+        kepBeallit(kep || ujBoldogKep());
         mond(szoveg || boldogSzoveg());
         alvasFrissit();
     }
@@ -375,7 +394,7 @@
 
         if (A.boldog && t - A.utolsoSzeretet > ORA) A.boldog = false;
 
-        let szoveg = null;
+        let szoveg = null, kep = null;
         const nsz = napszak();
 
         if (elsoBetoltes) {
@@ -385,9 +404,9 @@
         if (!szoveg && A.simiOsszes === 0) szoveg = SZ.elsoSimi;
         if (!szoveg && !A.boldog) {
             if (nsz === "ejjel") szoveg = randomElem(SZ.alszik);
-            else if (nsz === "reggel" && elteltLatogatas > 3 * ORA) szoveg = randomElem(SZ.reggel);
+            else if (nsz === "reggel" && elteltLatogatas > 3 * ORA) { szoveg = randomElem(SZ.reggel); kep = K.reggel; }
             else if (elteltLatogatas > 3 * ORA) szoveg = hianyzasSzoveg(elteltLatogatas);
-            else if (elsoBetoltes && nsz === "reggel") szoveg = randomElem(SZ.reggel);
+            else if (elsoBetoltes && nsz === "reggel") { szoveg = randomElem(SZ.reggel); kep = K.reggel; }
             else if (elsoBetoltes && nsz === "este") szoveg = randomElem(SZ.este);
         }
         if (!szoveg && A.boldog && elteltLatogatas > 3 * ORA) szoveg = "Visszajöttél! 🥰";
@@ -400,7 +419,7 @@
             mond(szoveg || boldogSzoveg());
             alvasFrissit();
         } else {
-            szomoruraValt(szoveg);
+            szomoruraValt(szoveg, kep);
         }
         cetliJelzes();
         egyuttFrissit();
@@ -634,7 +653,8 @@
         for (let i = 0; i < 5; i++) setTimeout(() => szivecske(), i * 100);
         Hang.miau();
         rezges(20);
-        boldograValt(karacsonyVan() ? "Karácsonyi szeretet-roham! 🎄❤️" : "AZONNALI SZERETET-ROHAM! ❤️🔥");
+        if (karacsonyVan()) boldograValt("Karácsonyi szeretet-roham! 🎄❤️", Math.random() < 0.5 ? K.karacsony : null);
+        else boldograValt("AZONNALI SZERETET-ROHAM! ❤️🔥");
     });
 
     $("sadBtn").addEventListener("click", () => {
@@ -674,7 +694,7 @@
             Hang.nyam();
             rezges(15);
             A.utolsoEtetes = most();
-            boldograValt(randomElem(SZ.etetes));
+            boldograValt(randomElem(SZ.etetes), K.hal);
             gomb.disabled = false;
         }, 650);
     });
@@ -693,7 +713,7 @@
             g.remove();
             for (let i = 0; i < 3; i++) setTimeout(() => szivecske(), i * 90);
             Hang.miau();
-            boldograValt(randomElem(SZ.jatek.slice(1)));
+            boldograValt(randomElem(SZ.jatek.slice(1)), K.gombolyag);
             gomb.disabled = false;
         }, 1500);
     });
@@ -755,6 +775,7 @@
             ment();
             cetliJelzes();
             konfetti(30);
+            boldograValt("Tetszett a cetli? 💌", K.level);
         }, 420);
     });
 
@@ -804,7 +825,7 @@
             ment();
             setTimeout(() => {
                 konfetti(nagy ? 120 : 50);
-                if (!A.boldog) boldograValt(szoveg);
+                boldograValt(szoveg, K.unnep);
                 Hang.miau();
             }, 500);
         }
@@ -821,6 +842,7 @@
             for (let i = 0; i < 3; i++) setTimeout(() => szivecske(), i * 100);
         } else {
             mond(unnep);
+            kepBeallit(K.unnep);
         }
     });
 
@@ -1022,7 +1044,12 @@
     });
 
     // ======================= INDÍTÁS =======================
+    function elotolt() {
+        boldogKepek.concat(szomoruKepek, alvoKepek, Object.values(K)).forEach((k) => { const i = new Image(); i.src = k; });
+    }
+
     async function indit() {
+        elotolt();
         csillagokLetrehoz();
         hoesesLetrehoz();
         hangGombFrissit();
