@@ -6,6 +6,7 @@ Egy kis kék cica a telefon kezdőképernyőjén, aki szeretetre vágyik.
 
 - 👆 **Simogatás:** az ujjadat húzd végig a cicán. Közben dorombol, és ha eleget simogatod, boldog lesz.
 - ❤️ **Szeretet**, 😴 **altatás** (eepy, simogatással ébred), 🐟 **etetés** (20 percenként; 5 óra után „éhes”), 🧶 **játék a gombolyaggal**.
+- 💖 **Életcsík (3 szív):** egy-egy szív kiürül, ha a cica éhes (5 óra után), álmos (10 óra után) vagy játszani szeretne (4 óra után). Etetés, altatás és játék után újra megtelik, és ha mindhárom tele, ünnepel. Az időket a `beallitasok.js`-ben lehet állítani.
 - ⏰ **Emlékszik:** egy óra simogatás nélkül elszomorodik. Ha sokáig nem jössz, megmondja, hogy hiányoztál.
 - 💌 **Napi cetli:** minden nap egy új titkos üzenet nyílik ki.
 - 💞 **Együtt X napja:** évfordulón, hónapfordulón és minden 100. napon konfetti jár.

@@ -35,14 +35,14 @@
         "szomoru_shy1.png":       { x: 50, y: 21, w: 48, r: -5 },
         "szomoru_shy2.png":       { x: 37, y: 13, w: 45, r: -8 },
         "szomoru_takaro.png":     { x: 52, y: 41, w: 28, r: -5 },
-        "alvo_parna.png":         { x: 50, y: 44, w: 29, r: -6 },
-        "boldog_gombolyag.png":   { x: 52, y: 17, w: 41, r: -8 },
-        "boldog_hal.png":         { x: 44, y: 19, w: 44, r: -8 },
-        "boldog_level.png":       { x: 44, y: 19, w: 44, r: -8 },
-        "boldog_puszi_kuld.png":  { x: 43, y: 25, w: 43, r: -8 },
-        "karacsony_ajandek.png":  { x: 44, y: 19, w: 44, r: -8 },
-        "reggel_integet.png":     { x: 50, y: 35, w: 37, r: -8 },
-        "szomoru_konnyes.png":    { x: 44, y: 19, w: 44, r: -8 }
+        "alvo_parna.png":         { x: 49, y: 33, w: 36, r: -6 },
+        "boldog_gombolyag.png":   { x: 43, y: 11, w: 47, r: -6 },
+        "boldog_hal.png":         { x: 43, y: 12, w: 47, r: -6 },
+        "boldog_level.png":       { x: 43, y: 12, w: 47, r: -6 },
+        "boldog_puszi_kuld.png":  { x: 42, y: 18, w: 45, r: -6 },
+        "karacsony_ajandek.png":  { x: 43, y: 12, w: 47, r: -6 },
+        "reggel_integet.png":     { x: 50, y: 28, w: 38, r: -6 },
+        "szomoru_konnyes.png":    { x: 43, y: 12, w: 47, r: -6 }
         // az unnep_parti.png-n partisapka van, oda nem kell mikulássapka
     };
 
@@ -63,6 +63,8 @@
         etetes: ["Nyam-nyam! 🐟", "Már nem vagyok éhes! 😋", "Köszi a halat, {nev}! 🐟💖"],
         tele: ["Már nem vagyok éhes! 🐟", "Most nem fér több belém 😅", "Majd később, jó? 🐟"],
         jatek: ["Elkapom! 🧶", "Hihi, megvan! 😹", "Még egyszer! 🧶✨"],
+        jatszani: ["játszunk? 🧶🥺", "unatkozom... 🧶", "{nev}, játszol velem? 🥺🧶", "gombolyag? 👉👈"],
+        tele3: ["Minden szívecske tele! 💖💖💖", "Teli szívvel szeretlek, {nev}! 💖", "Három szív, egy boldog cica! 😻"],
         szeretet: ["Én is szeretlek, {nev}! ❤️", "Szeretet-roham! ❤️🔥", "Ez kellett! Szeretlek! 💖"],
         elsoSimi: "Simogass meg: húzd rajtam az ujjad! 👆"
     };
@@ -75,6 +77,7 @@
     const KULCS = "kekcica.allapot.v2";
     const ORA = 3600 * 1000;
     let A = betolt();
+    ["utolsoEtetes", "utolsoAlvas", "utolsoJatek"].forEach((m) => { if (!A[m]) A[m] = Date.now(); });
 
     function betolt() {
         try { return Object.assign(alapAllapot(), JSON.parse(localStorage.getItem(KULCS) || "{}")); }
@@ -91,6 +94,8 @@
             hang: true,
             altatva: 0,
             utolsoEtetes: 0,
+            utolsoAlvas: 0,
+            utolsoJatek: 0,
             simiOsszes: 0,
             unnepeltNap: null
         };
@@ -373,14 +378,61 @@
     function alszik() {
         return !A.boldog && (napszak() === "ejjel" || altatvaVan());
     }
-    const EHSEG = 5 * ORA;
+    // ======================= ÉLETCSÍK (3 szív) =======================
+    // Minden szív egy igény: éhség 🐟, alvás 😴, játék 🧶.
+    // Ha egy igény régóta nincs kielégítve, az a szív kiürül.
+    const IG = Object.assign({ ehes: 5, eepy: 10, jatek: 4 }, B.igenyekOraban || {});
+    const IGENYEK = [
+        { kulcs: "ehes", mezo: "utolsoEtetes", ikon: "🐟", ora: IG.ehes },
+        { kulcs: "eepy", mezo: "utolsoAlvas", ikon: "😴", ora: IG.eepy },
+        { kulcs: "jatek", mezo: "utolsoJatek", ikon: "🧶", ora: IG.jatek }
+    ];
+    function igenyHianyzik(ig) {
+        return most() - (A[ig.mezo] || 0) > ig.ora * ORA;
+    }
+    function hianyzoIgenyek() {
+        return IGENYEK.filter(igenyHianyzik);
+    }
     function ehes() {
-        return most() - (A.utolsoEtetes || 0) > EHSEG;
+        return igenyHianyzik(IGENYEK[0]);
+    }
+    function igenySzoveg(ig) {
+        return randomElem(ig.kulcs === "ehes" ? SZ.ehes : ig.kulcs === "eepy" ? SZ.eepy : SZ.jatszani);
     }
     function szomoruSzoveg() {
         if (alszik()) return randomElem(altatvaVan() ? SZ.eepy : SZ.alszik);
-        if (ehes() && Math.random() < 0.5) return randomElem(SZ.ehes);
+        const h = hianyzoIgenyek();
+        if (h.length && Math.random() < 0.7) return igenySzoveg(randomElem(h));
         return randomElem(SZ.szomoru);
+    }
+
+    let elozoTeli = null;
+    function eletFrissit(unnepelhet) {
+        const sor = $("eletcsik");
+        if (!sor) return;
+        let teli = 0;
+        IGENYEK.forEach((ig, i) => {
+            const el = sor.children[i];
+            const ok = !igenyHianyzik(ig);
+            if (ok) teli++;
+            const volt = el.classList.contains("ures");
+            el.classList.toggle("ures", !ok);
+            if (volt && ok) { el.classList.remove("feltolt"); void el.offsetWidth; el.classList.add("feltolt"); }
+        });
+        if (unnepelhet && elozoTeli !== null && elozoTeli < 3 && teli === 3) {
+            setTimeout(() => {
+                konfetti(45);
+                Hang.miau();
+                mond(randomElem(SZ.tele3));
+            }, 900);
+        }
+        elozoTeli = teli;
+    }
+
+    function igenyTeljesul(mezo) {
+        A[mezo] = most();
+        ment();
+        eletFrissit(true);
     }
 
     function szomoruraValt(szoveg, kep) {
@@ -435,6 +487,7 @@
         }
         if (!szoveg && A.boldog && elteltLatogatas > 3 * ORA) szoveg = "Visszajöttél! 🥰";
 
+        if (alszik()) A.utolsoAlvas = t;
         A.utolsoLatogatas = t;
         ment();
 
@@ -447,6 +500,7 @@
         }
         cetliJelzes();
         egyuttFrissit();
+        eletFrissit(false);
     }
 
     function hianyzasSzoveg(ms) {
@@ -470,8 +524,10 @@
             napszakAlkalmaz();
             if (!A.boldog) szomoruraValt();
         }
+        if (alszik()) { A.utolsoAlvas = most(); ment(); }
         cetliJelzes();
         egyuttFrissit();
+        eletFrissit(false);
     }, 60 * 1000);
 
     document.addEventListener("visibilitychange", () => {
@@ -690,6 +746,7 @@
         A.boldog = false;
         A.altatva = most();
         szomoruraValt(randomElem(SZ.eepy), randomElem(alvoKepek));
+        igenyTeljesul("utolsoAlvas");
     });
 
     // Etetés
@@ -723,8 +780,8 @@
             ugrasAnimacio();
             Hang.nyam();
             rezges(15);
-            A.utolsoEtetes = most();
             boldograValt(randomElem(SZ.etetes), K.hal);
+            igenyTeljesul("utolsoEtetes");
             gomb.disabled = false;
         }, 650);
     });
@@ -744,8 +801,19 @@
             for (let i = 0; i < 3; i++) setTimeout(() => szivecske(), i * 90);
             Hang.miau();
             boldograValt(randomElem(SZ.jatek.slice(1)), K.gombolyag);
+            igenyTeljesul("utolsoJatek");
             gomb.disabled = false;
         }, 1500);
+    });
+
+    // Életcsík: koppintásra elmondja, mi kell neki
+    Array.from($("eletcsik").children).forEach((el, i) => {
+        el.addEventListener("click", () => {
+            const ig = IGENYEK[i];
+            ugrasAnimacio();
+            if (igenyHianyzik(ig)) mond(igenySzoveg(ig));
+            else mond({ ehes: "Tele a pocim! 🐟💖", eepy: "Kipihentem magam! 😴💖", jatek: "Már játszottunk! 🧶💖" }[ig.kulcs]);
+        });
     });
 
     // Hang be/ki
