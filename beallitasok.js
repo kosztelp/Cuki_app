@@ -7,6 +7,9 @@ window.BEALLITASOK = {
     // Mióta vagytok együtt? Formátum: "ÉÉÉÉ-HH-NN"
     kezdoDatum: "2025-04-26",
 
+    // Életcsík (3 szív): ennyi óra után ürül ki egy-egy szív, ha nem kapja meg, ami kell neki.
+    igenyekOraban: { ehes: 5, eepy: 10, jatek: 4 },
+
     // Becenevek: a cica ezek közül választ, amikor megszólítja (a szövegekben {nev}).
     becenevek: ["Cuki", "Hehi", "Szívem"],
 

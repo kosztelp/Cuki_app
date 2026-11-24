@@ -19,11 +19,55 @@ TEST = A["test"]; FAROK = A["farok"]; MANCS = A["mancs"]
 def vonal(d, fill="none", w=V):
     return f'<path d="{d}" fill="{fill}" stroke="{FEK}" stroke-width="{w}" stroke-linejoin="round" stroke-linecap="round"/>'
 
-def test(farok=True, test_pontok=None):
+ALJ = 410  # ettől lefelé kézzel rajzolt lábak jönnek
+
+def test_ut(sy=1, dy=0):
+    """Az eredeti körvonal (fej, fülek, oldalak) + kézzel rajzolt cicalábak alul."""
+    P = TEST
+    lent = [p[1] >= ALJ for p in P]
+    # forgassuk úgy, hogy a lánc egy "fent" ponttal kezdődjön, ami "lent" után jön
+    k = next(i for i in range(len(P)) if lent[i - 1] and not lent[i])
+    P2 = P[k:] + P[:k]; L2 = lent[k:] + lent[:k]
+    lanc = []
+    for p, l in zip(P2, L2):
+        if l: break
+        lanc.append(p)
+    if lanc[0][0] > lanc[-1][0]:
+        lanc = lanc[::-1]
+    (xl, yl), (xr, yr) = lanc[0], lanc[-1]
+    K = 228; yb = ALJ + 70; tw = 36
+    d = "M" + " L".join(f"{x} {y}" for x, y in lanc)
+    # jobb láb külső íve
+    d += f" Q{xr + 6} {yb - 30} {xr - 8} {yb - 4}"
+    x = xr - 8
+    for i in range(3):  # három ujj (lefelé domborodó ívek)
+        d += f" Q{x - tw / 2} {yb + 34} {x - tw} {yb}"
+        x -= tw
+    # ív a két láb között
+    belso_j = x; belso_b = 2 * K - x
+    d += f" Q{belso_j - 4} {yb - 34} {K} {yb - 38} Q{belso_b + 4} {yb - 34} {belso_b} {yb}"
+    x = belso_b
+    for i in range(3):
+        d += f" Q{x - tw / 2} {yb + 34} {x - tw} {yb}"
+        x -= tw
+    d += f" Q{xl - 6} {yb - 30} {xl} {yl} Z"
+    if sy != 1 or dy:
+        import re
+        szamok = d.replace("M", " M ").replace("L", " L ").replace("Q", " Q ").replace("Z", " Z ").split()
+        ki, xy = [], 0
+        for t in szamok:
+            if t in "MLQZ":
+                ki.append(t); xy = 0; continue
+            v = float(t)
+            ki.append(f"{round(v, 1) if xy % 2 == 0 else round(v * sy + dy, 1)}"); xy += 1
+        d = " ".join(ki)
+    return d
+
+def test(farok=True):
     t = ''
     if farok:
         t += vonal(ut(FAROK), KEK)
-    t += vonal(ut(test_pontok or TEST), KEK)
+    t += vonal(test_ut(), KEK)
     return t
 
 def pir(nagy=False):
@@ -126,13 +170,13 @@ szivek = (f'<path d="M470 120 Q430 84 450 64 Q470 52 476 78 Q484 52 504 62 Q522 
 kepek["boldog_puszi_kuld"] = svg(kar_fel((350, 300), (430, 135), 1) + test() + arc("pont") + mancs_bal() + szivek)
 
 # Párnán alvó: az eredeti test laposra nyomva ("cipó" póz)
-lapos = eltol(TEST, 0, 60, sy=0.62, y0=0)
 parna = (f'<path d="M-40 400 Q-46 320 40 316 L410 316 Q496 320 490 400 Q496 480 410 486 L40 486 Q-46 480 -40 400 Z" fill="{ROZSA}" stroke="{FEK}" stroke-width="{V}"/>'
          f'<path d="M10 400 L440 400" stroke="{PIR}" stroke-width="8" stroke-linecap="round"/>')
+lapos = vonal(ut(eltol(FAROK, 0, 60, sy=0.62)), KEK) + vonal(test_ut(0.62, 60), KEK)
 alvo_arc = (f'<g transform="translate(0 70) scale(1 .9)">' + pir() + szemek("csukott") + orr() + '</g>')
 zzz = ('<text x="420" y="60" font-family="Arial Rounded MT Bold, Arial" font-weight="900" font-size="70" fill="#8a7fd1">z</text>'
        '<text x="470" y="-10" font-family="Arial Rounded MT Bold, Arial" font-weight="900" font-size="96" fill="#8a7fd1">Z</text>')
-kepek["alvo_parna"] = svg(parna + vonal(ut(eltol(FAROK, 0, 60, sy=0.62)), KEK) + vonal(ut(lapos), KEK) + alvo_arc + zzz)
+kepek["alvo_parna"] = svg(parna + lapos + alvo_arc + zzz)
 
 for nev, s in kepek.items():
     open(f"{OUT}/{nev}.svg", "w").write(s)
