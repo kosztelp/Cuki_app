@@ -21,19 +21,37 @@ def vonal(d, fill="none", w=V):
 
 ALJ = 410  # ettől lefelé kézzel rajzolt lábak jönnek
 
-def sima_oldal(lanc, oldalak):
-    """Ahol a kar felfelé áll, ott a test oldalán nincs mancs-dudor: az oldalt kisimítjuk."""
-    Y0, X0, X1 = 220, 63, 52  # a dudor kezdete és az oldal x-e fent / lent (bal oldalon)
+def _profil():
+    """Bal oldali test-profil felemelt karhoz: váll -> derék (befelé) -> csípő (kifelé) -> láb."""
+    pts = [(200, 62), (220, 63), (290, 74), (360, 44), (ALJ, 50), (ALJ + 20, 52)]  # (y, x)
     ki = []
-    for x, y in lanc:
-        for o in oldalak:
-            bal = o == "bal"
-            if (x < 228) == bal and Y0 <= y <= ALJ:
-                t = (y - Y0) / (ALJ - Y0)
-                xb = X0 + (X1 - X0) * (t ** 0.8)
-                x = round(xb if bal else 456 - xb, 1)
-        ki.append([x, y])
-    return ki
+    for i in range(1, len(pts) - 2):
+        p0, p1, p2, p3 = pts[i - 1], pts[i], pts[i + 1], pts[i + 2]
+        for k in range(10):
+            t = k / 10
+            y = 0.5 * (2*p1[0] + (-p0[0] + p2[0])*t + (2*p0[0] - 5*p1[0] + 4*p2[0] - p3[0])*t*t + (-p0[0] + 3*p1[0] - 3*p2[0] + p3[0])*t**3)
+            x = 0.5 * (2*p1[1] + (-p0[1] + p2[1])*t + (2*p0[1] - 5*p1[1] + 4*p2[1] - p3[1])*t*t + (-p0[1] + 3*p1[1] - 3*p2[1] + p3[1])*t**3)
+            ki.append((round(y, 1), round(x, 1)))
+    ki.append((ALJ, 50))
+    return ki  # felülről lefelé
+
+def sima_oldal(lanc, oldalak):
+    """Ahol a kar felfelé áll, ott a test oldalán nincs mancs-dudor, helyette derék és csípő ív."""
+    Y0 = 220
+    prof = _profil()
+    for o in oldalak:
+        bal = o == "bal"
+        resz = lambda p: (p[0] < 228) == bal and Y0 <= p[1] <= ALJ
+        idx = [i for i, p in enumerate(lanc) if resz(p)]
+        if not idx:
+            continue
+        i0, i1 = idx[0], idx[-1]
+        uj = [[x if bal else 456 - x, y] for y, x in prof]
+        # a lánc bal oldalon alulról felfelé, jobb oldalon felülről lefelé halad
+        if bal:
+            uj = uj[::-1]
+        lanc = lanc[:i0] + uj + lanc[i1 + 1:]
+    return lanc
 
 def test_ut(sy=1, dy=0, sima=()):
     """Az eredeti körvonal (fej, fülek, oldalak) + kézzel rajzolt cicalábak alul."""
