@@ -21,7 +21,21 @@ def vonal(d, fill="none", w=V):
 
 ALJ = 410  # ettől lefelé kézzel rajzolt lábak jönnek
 
-def test_ut(sy=1, dy=0):
+def sima_oldal(lanc, oldalak):
+    """Ahol a kar felfelé áll, ott a test oldalán nincs mancs-dudor: az oldalt kisimítjuk."""
+    Y0, X0, X1 = 220, 63, 52  # a dudor kezdete és az oldal x-e fent / lent (bal oldalon)
+    ki = []
+    for x, y in lanc:
+        for o in oldalak:
+            bal = o == "bal"
+            if (x < 228) == bal and Y0 <= y <= ALJ:
+                t = (y - Y0) / (ALJ - Y0)
+                xb = X0 + (X1 - X0) * (t ** 0.8)
+                x = round(xb if bal else 456 - xb, 1)
+        ki.append([x, y])
+    return ki
+
+def test_ut(sy=1, dy=0, sima=()):
     """Az eredeti körvonal (fej, fülek, oldalak) + kézzel rajzolt cicalábak alul."""
     P = TEST
     lent = [p[1] >= ALJ for p in P]
@@ -34,6 +48,8 @@ def test_ut(sy=1, dy=0):
         lanc.append(p)
     if lanc[0][0] > lanc[-1][0]:
         lanc = lanc[::-1]
+    if sima:
+        lanc = sima_oldal(lanc, sima)
     (xl, yl), (xr, yr) = lanc[0], lanc[-1]
     K = 228; yb = ALJ + 70; tw = 36
     d = "M" + " L".join(f"{x} {y}" for x, y in lanc)
@@ -63,11 +79,11 @@ def test_ut(sy=1, dy=0):
         d = " ".join(ki)
     return d
 
-def test(farok=True):
+def test(farok=True, sima=()):
     t = ''
     if farok:
         t += vonal(ut(FAROK), KEK)
-    t += vonal(test_ut(), KEK)
+    t += vonal(test_ut(sima=sima), KEK)
     return t
 
 def pir(nagy=False):
@@ -154,7 +170,7 @@ kepek["szomoru_konnyes"] = svg(test() + arc("konnyes", nagy_pir=True) + mancs(12
 
 nap = (f'<circle cx="-5" cy="-20" r="48" fill="#ffd86b" stroke="{FEK}" stroke-width="14"/>'
        + vonal("M-5 -90 L-5 -78 M-5 38 L-5 50 M-75 -20 L-63 -20 M53 -20 L65 -20 M-55 -70 L-46 -61 M36 21 L45 30 M45 -70 L36 -61 M-55 30 L-46 21", w=10))
-kepek["reggel_integet"] = svg(nap + kar_fel((350, 300), (455, 95), 1) + test() + arc("pont") + mancs_bal() +
+kepek["reggel_integet"] = svg(nap + kar_fel((350, 300), (455, 95), 1) + test(sima=("jobb",)) + arc("pont") + mancs_bal() +
                               vonal("M480 60 Q500 84 486 108 M496 30 Q526 66 508 104", w=8))
 
 konf = "".join(f'<rect x="{x}" y="{y}" width="24" height="15" rx="4" fill="{c}" transform="rotate({r} {x} {y})"/>'
@@ -163,11 +179,11 @@ konf = "".join(f'<rect x="{x}" y="{y}" width="24" height="15" rx="4" fill="{c}" 
 sapka = (f'<path d="M180 72 L232 -70 L280 66 Z" fill="#ffd166" stroke="{FEK}" stroke-width="{V}" stroke-linejoin="round"/>'
          f'<path d="M198 22 L262 22 M212 -20 L250 -20" stroke="#ff7aa2" stroke-width="12" stroke-linecap="round"/>'
          f'<circle cx="232" cy="-74" r="20" fill="#ff7aa2" stroke="{FEK}" stroke-width="12"/>')
-kepek["unnep_parti"] = svg(konf + kar_fel((100, 300), (-15, 95), -1) + kar_fel((350, 300), (465, 95), 1) + test(farok=False) + arc("boldog") + sapka)
+kepek["unnep_parti"] = svg(konf + kar_fel((100, 300), (-15, 95), -1) + kar_fel((350, 300), (465, 95), 1) + test(farok=False, sima=("bal", "jobb")) + arc("boldog") + sapka)
 
 szivek = (f'<path d="M470 120 Q430 84 450 64 Q470 52 476 78 Q484 52 504 62 Q522 84 470 120 Z" fill="#ff5c8a" stroke="{FEK}" stroke-width="10" stroke-linejoin="round"/>'
           f'<path d="M430 30 Q410 12 420 2 Q430 -4 433 9 Q437 -4 447 1 Q456 12 430 30 Z" fill="#ff8fb0" stroke="{FEK}" stroke-width="8" stroke-linejoin="round"/>')
-kepek["boldog_puszi_kuld"] = svg(kar_fel((350, 300), (430, 135), 1) + test() + arc("pont") + mancs_bal() + szivek)
+kepek["boldog_puszi_kuld"] = svg(kar_fel((350, 300), (430, 135), 1) + test(sima=("jobb",)) + arc("pont") + mancs_bal() + szivek)
 
 # Párnán alvó: az eredeti test laposra nyomva ("cipó" póz)
 parna = (f'<path d="M-40 400 Q-46 320 40 316 L410 316 Q496 320 490 400 Q496 480 410 486 L40 486 Q-46 480 -40 400 Z" fill="{ROZSA}" stroke="{FEK}" stroke-width="{V}"/>'
