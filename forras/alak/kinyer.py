@@ -23,6 +23,12 @@ ker = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (VAST + 1, VAST + 1))
 test = a.copy(); test[335:450, 402:] = False
 test = cv2.morphologyEx(test.astype(np.uint8), cv2.MORPH_CLOSE, np.ones((9, 9), np.uint8))
 test = cv2.erode(test, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (VAST // 2 * 2 + 1,) * 2)) > 0
+# a jobb oldalon kilógó könyök miatt a jobb felet a bal fél tükörképéből rakjuk össze
+KOZEP = 228
+sym = np.zeros_like(test)
+sym[:, :KOZEP] = test[:, :KOZEP]
+sym[:, KOZEP:2 * KOZEP] = test[:, :KOZEP][:, ::-1]
+test = sym
 # farok
 farok = np.zeros_like(a); farok[335:450, 395:] = a[335:450, 395:]
 farok = cv2.erode(farok.astype(np.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (VAST // 2 * 2 + 1,) * 2)) > 0

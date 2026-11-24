@@ -41,12 +41,12 @@ def szemek(fajta="pont"):
     if fajta == "pont":
         return f'<circle cx="{L}" cy="{Y}" r="11" fill="{FEK}"/><circle cx="{R}" cy="{Y}" r="11" fill="{FEK}"/>'
     if fajta == "boldog":
+        return szemek("pont")
         return vonal(f"M{L-17} {Y+7} Q{L} {Y-12} {L+17} {Y+7} M{R-17} {Y+7} Q{R} {Y-12} {R+17} {Y+7}", w=10)
     if fajta == "csukott":
         return vonal(f"M{L-17} {Y-2} Q{L} {Y+12} {L+17} {Y-2} M{R-17} {Y-2} Q{R} {Y+12} {R+17} {Y-2}", w=10)
     if fajta == "konnyes":
-        return (f'<circle cx="{L}" cy="{Y}" r="15" fill="#fff" stroke="{FEK}" stroke-width="7"/><circle cx="{L+3}" cy="{Y+2}" r="6" fill="{FEK}"/>'
-                f'<circle cx="{R}" cy="{Y}" r="15" fill="#fff" stroke="{FEK}" stroke-width="7"/><circle cx="{R+3}" cy="{Y+2}" r="6" fill="{FEK}"/>'
+        return (f'<circle cx="{L}" cy="{Y}" r="11" fill="{FEK}"/><circle cx="{R}" cy="{Y}" r="11" fill="{FEK}"/>'
                 f'<path d="M{L+4} {Y+22} Q{L-8} {Y+46} {L+4} {Y+54} Q{L+16} {Y+46} {L+4} {Y+22} Z" fill="#9fd0ff" stroke="{FEK}" stroke-width="6"/>')
 
 def arc(szem="pont", nagy_pir=False):
@@ -123,7 +123,7 @@ kepek["unnep_parti"] = svg(konf + kar_fel((100, 300), (-15, 95), -1) + kar_fel((
 
 szivek = (f'<path d="M470 120 Q430 84 450 64 Q470 52 476 78 Q484 52 504 62 Q522 84 470 120 Z" fill="#ff5c8a" stroke="{FEK}" stroke-width="10" stroke-linejoin="round"/>'
           f'<path d="M430 30 Q410 12 420 2 Q430 -4 433 9 Q437 -4 447 1 Q456 12 430 30 Z" fill="#ff8fb0" stroke="{FEK}" stroke-width="8" stroke-linejoin="round"/>')
-kepek["boldog_puszi_kuld"] = svg(kar_fel((350, 300), (430, 135), 1) + test() + arc("csukott") + mancs_bal() + szivek)
+kepek["boldog_puszi_kuld"] = svg(kar_fel((350, 300), (430, 135), 1) + test() + arc("pont") + mancs_bal() + szivek)
 
 # Párnán alvó: az eredeti test laposra nyomva ("cipó" póz)
 lapos = eltol(TEST, 0, 60, sy=0.62, y0=0)

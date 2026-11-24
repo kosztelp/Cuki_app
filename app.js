@@ -35,14 +35,14 @@
         "szomoru_shy1.png":       { x: 50, y: 21, w: 48, r: -5 },
         "szomoru_shy2.png":       { x: 37, y: 13, w: 45, r: -8 },
         "szomoru_takaro.png":     { x: 52, y: 41, w: 28, r: -5 },
-        "alvo_parna.png":         { x: 49, y: 35, w: 36, r: -6 },
-        "boldog_gombolyag.png":   { x: 43, y: 13, w: 47, r: -6 },
-        "boldog_hal.png":         { x: 43, y: 13, w: 47, r: -6 },
-        "boldog_level.png":       { x: 43, y: 13, w: 47, r: -6 },
-        "boldog_puszi_kuld.png":  { x: 42, y: 19, w: 45, r: -6 },
-        "karacsony_ajandek.png":  { x: 43, y: 13, w: 47, r: -6 },
-        "reggel_integet.png":     { x: 50, y: 29, w: 38, r: -6 },
-        "szomoru_konnyes.png":    { x: 43, y: 13, w: 47, r: -6 }
+        "alvo_parna.png":         { x: 49, y: 33, w: 36, r: -6 },
+        "boldog_gombolyag.png":   { x: 43, y: 11, w: 47, r: -6 },
+        "boldog_hal.png":         { x: 43, y: 12, w: 47, r: -6 },
+        "boldog_level.png":       { x: 43, y: 12, w: 47, r: -6 },
+        "boldog_puszi_kuld.png":  { x: 42, y: 18, w: 45, r: -6 },
+        "karacsony_ajandek.png":  { x: 43, y: 12, w: 47, r: -6 },
+        "reggel_integet.png":     { x: 50, y: 28, w: 38, r: -6 },
+        "szomoru_konnyes.png":    { x: 43, y: 12, w: 47, r: -6 }
         // az unnep_parti.png-n partisapka van, oda nem kell mikulássapka
     };
 
