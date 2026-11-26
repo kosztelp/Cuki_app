@@ -7,8 +7,17 @@ window.BEALLITASOK = {
     // Mióta vagytok együtt? Formátum: "ÉÉÉÉ-HH-NN"
     kezdoDatum: "2025-04-26",
 
-    // Életcsík (3 szív): ennyi óra után ürül ki egy-egy szív, ha nem kapja meg, ami kell neki.
-    igenyekOraban: { ehes: 5, eepy: 10, jatek: 4 },
+    // Anna napjai (HH-NN): ezeken a napokon a cica ünnepel, és külön cetli jár.
+    nev: "Anna",
+    szuletesnap: "06-24",
+    nevnap: "07-26",
+
+    // Életcsík (3 szív): ennyi óra után ürül ki egy-egy szív.
+    //  ehes: etetés tölti fel · szeretet: a szívecskére koppintás tölti fel · jatek: a gombolyag tölti fel
+    igenyekOraban: { ehes: 5, szeretet: 4, jatek: 4 },
+
+    // Alvás: ennyi óra ébrenlét után a cica magától elalszik (eepyzek), és ennyi óráig alszik.
+    alvas: { ebrenOra: 10, alvasOra: 1 },
 
     // Becenevek: a cica ezek közül választ, amikor megszólítja (a szövegekben {nev}).
     becenevek: ["Cuki", "Hehi", "Szívem"],
