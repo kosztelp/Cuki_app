@@ -6,7 +6,9 @@ Egy kis kék cica a telefon kezdőképernyőjén, aki szeretetre vágyik.
 
 - 👆 **Simogatás:** az ujjadat húzd végig a cicán. Közben dorombol, és ha eleget simogatod, boldog lesz.
 - ❤️ **Szeretet**, 😴 **altatás** (eepy, simogatással ébred), 🐟 **etetés** (20 percenként; 5 óra után „éhes”), 🧶 **játék a gombolyaggal**.
-- 💖 **Életcsík (3 szív):** egy-egy szív kiürül, ha a cica éhes (5 óra után), álmos (10 óra után) vagy játszani szeretne (4 óra után). Etetés, altatás és játék után újra megtelik, és ha mindhárom tele, ünnepel. Az időket a `beallitasok.js`-ben lehet állítani.
+- 💖 **Életcsík (3 szív):** 🐟 éhség (etetés tölti fel), 👆 szeretet (a szívecskére kell koppintani), 🧶 játék (gombolyag). Ha mindhárom tele, a cica ünnepel. Az időket a `beallitasok.js`-ben lehet állítani.
+- 😴 **Alvás:** 10 óra ébrenlét után a cica magától elalszik 1 órára („eepyzek”), utána „eepy voltam”. Az alvás gombbal kézzel is el lehet altatni.
+- 🎂 **Szülinap és névnap:** születésnap (06.24) és névnap (07.26) – ünneplés, konfetti és külön cetli.
 - ⏰ **Emlékszik:** egy óra simogatás nélkül elszomorodik. Ha sokáig nem jössz, megmondja, hogy hiányoztál.
 - 💌 **Napi cetli:** minden nap egy új titkos üzenet nyílik ki.
 - 💞 **Együtt X napja:** évfordulón, hónapfordulón és minden 100. napon konfetti jár.
@@ -40,5 +42,6 @@ Az URL végére írva kipróbálhatod a különböző módokat:
 - `?napszak=reggel` (vagy `nappal`, `este`, `ejjel`)
 - `?karacsony=1`
 - `?evfordulo=1`
+- `?ma=2027-06-24` (egy adott nap ünnepeinek kipróbálása)
 
 Ha új verziót töltesz fel, a `sw.js` fájlban emeld meg a `VERZIO` számot, hogy a telefon biztosan frissüljön.

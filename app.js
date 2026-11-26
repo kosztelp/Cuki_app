@@ -48,11 +48,15 @@
 
     // {nev} helyére véletlenszerűen az egyik becenév kerül (beallitasok.js)
     const SZ = {
-        szomoru: ["szeress 🥺", "szeress pls 👉👈", "szeress, {nev} 🥺💙", "Szeretetre vágyom... 🥺", "Hiányzik a simi, {nev}... 🥺"],
+        szomoru: ["szeress 🥺", "szeress pls 👉👈", "szeress, {nev} 🥺❤️", "Szeretetre vágyom... 🥺", "Hiányzik a simi, {nev}... 🥺"],
         ehes: ["éhes 🥺", "éhes 🐟🥺", "éhes... 👉👈", "{nev}, éhes 🥺🐟"],
         eepy: ["eepy 😴", "eepy... 💤", "nagyon eepy 🥱", "eepy, jó éjt, {nev} 💤"],
+        eepyzek: ["eepyzek... 💤", "eepyzek, pszt 😴", "eepyzek egy kicsit, {nev} 💤", "eepy... 💤"],
+        eepyVoltam: ["eepy voltam 🥱", "eepy voltam, de már itt vagyok! 😊", "eepy voltam... szia, {nev}! 🥱❤️"],
+        szeretethiany: ["szeress 🥺", "szeress pls 👉👈", "{nev}, nyomd meg a szívecskét 🥺", "szeretethiányom van 🥺💔"],
+        szeretetSziv: ["Köszi a szeretetet! 💖", "Szeretlek, {nev}! 🫶", "Ez kellett! 🥰"],
         boldog: ["Szeretlek, {nev}! 🥰", "Juhúú, ez az! 💖", "Jippii 🥰", "Köszii! Miau! ✨", "Ez nagyon jóóó! 😻", "Te vagy a kedvencem, {nev}! 💕"],
-        karacsonyBoldog: ["Boldog karácsonyt, {nev}! 🎄💙", "Hó-hó-hóóó! 🎅", "Te vagy a legszebb ajándékom, {nev}! 🎁"],
+        karacsonyBoldog: ["Boldog karácsonyt, {nev}! 🎄❤️", "Hó-hó-hóóó! 🎅", "Te vagy a legszebb ajándékom, {nev}! 🎁"],
         reggel: ["Jó reggelt, {nev}! ☀️", "Jó reggelt, {nev}! Szép napot! 🌞", "Ásít... jó reggelt, {nev}! 🥱☀️"],
         este: ["Szép estét, {nev}! 🌙", "Esti simi jöhet, {nev}? 🌙💕"],
         alszik: ["Pszt... alszom 💤", "eepy... 💤", "Zzz... 😴", "Pszt, a cica alszik 🌙"],
@@ -77,7 +81,7 @@
     const KULCS = "kekcica.allapot.v2";
     const ORA = 3600 * 1000;
     let A = betolt();
-    ["utolsoEtetes", "utolsoAlvas", "utolsoJatek"].forEach((m) => { if (!A[m]) A[m] = Date.now(); });
+    ["utolsoEtetes", "utolsoSzeretetSziv", "utolsoJatek", "utolsoEbredes"].forEach((m) => { if (!A[m]) A[m] = Date.now(); });
 
     function betolt() {
         try { return Object.assign(alapAllapot(), JSON.parse(localStorage.getItem(KULCS) || "{}")); }
@@ -94,7 +98,9 @@
             hang: true,
             altatva: 0,
             utolsoEtetes: 0,
-            utolsoAlvas: 0,
+            utolsoSzeretetSziv: 0,
+            utolsoEbredes: 0,
+            altatvaHossz: 0,
             utolsoJatek: 0,
             simiOsszes: 0,
             unnepeltNap: null
@@ -372,8 +378,43 @@
 
     // ======================= HANGULAT =======================
     const ALTATAS_HOSSZ = 8 * ORA;
+    const EBREN_ORA = (B.alvas && B.alvas.ebrenOra) || 10;           // ennyi óra ébrenlét után elalszik magától
+    const MAGATOL_ALVAS_ORA = (B.alvas && B.alvas.alvasOra) || 1;    // és ennyi ideig alszik
     function altatvaVan() {
-        return !!A.altatva && most() - A.altatva < ALTATAS_HOSSZ;
+        return !!A.altatva && most() - A.altatva < (A.altatvaHossz || ALTATAS_HOSSZ);
+    }
+    // Alvás-ciklus: 10 óra ébrenlét után magától elalszik 1 órára (akkor is, ha közben nincs nyitva az app).
+    // Visszaad: { most: épp most aludt el / alszik, aludt: közben aludt és már felébredt }
+    function alvasCiklus() {
+        const ki = { most: false, aludt: false };
+        if (alszik()) return ki;
+        const EB = EBREN_ORA * ORA, AL = MAGATOL_ALVAS_ORA * ORA, t = most();
+        let kezd = (A.utolsoEbredes || t) + EB;
+        while (kezd + AL <= t) {           // ezt az alvást már végigaludta, amíg nem néztük
+            A.utolsoEbredes = kezd + AL;
+            kezd = A.utolsoEbredes + EB;
+            ki.aludt = true;
+        }
+        if (t >= kezd) {                   // épp alszik
+            A.boldog = false;
+            A.altatva = kezd;
+            A.altatvaHossz = AL;
+            ki.most = true;
+        }
+        ment();
+        return ki;
+    }
+    function magatolElalszik() {
+        const c = alvasCiklus();
+        if (c.most) szomoruraValt(randomElem(SZ.eepyzek), randomElem(alvoKepek));
+        return c.most;
+    }
+    // Lejárt az alvás (vagy felébresztették)
+    function felebred(mikor) {
+        A.altatva = 0;
+        A.altatvaHossz = 0;
+        A.utolsoEbredes = mikor || most();
+        ment();
     }
     function alszik() {
         return !A.boldog && (napszak() === "ejjel" || altatvaVan());
@@ -381,10 +422,10 @@
     // ======================= ÉLETCSÍK (3 szív) =======================
     // Minden szív egy igény: éhség 🐟, alvás 😴, játék 🧶.
     // Ha egy igény régóta nincs kielégítve, az a szív kiürül.
-    const IG = Object.assign({ ehes: 5, eepy: 10, jatek: 4 }, B.igenyekOraban || {});
+    const IG = Object.assign({ ehes: 5, szeretet: 4, jatek: 4 }, B.igenyekOraban || {});
     const IGENYEK = [
         { kulcs: "ehes", mezo: "utolsoEtetes", ikon: "🐟", ora: IG.ehes },
-        { kulcs: "eepy", mezo: "utolsoAlvas", ikon: "😴", ora: IG.eepy },
+        { kulcs: "szeretet", mezo: "utolsoSzeretetSziv", ikon: "🫶", ora: IG.szeretet },
         { kulcs: "jatek", mezo: "utolsoJatek", ikon: "🧶", ora: IG.jatek }
     ];
     function igenyHianyzik(ig) {
@@ -397,10 +438,10 @@
         return igenyHianyzik(IGENYEK[0]);
     }
     function igenySzoveg(ig) {
-        return randomElem(ig.kulcs === "ehes" ? SZ.ehes : ig.kulcs === "eepy" ? SZ.eepy : SZ.jatszani);
+        return randomElem(ig.kulcs === "ehes" ? SZ.ehes : ig.kulcs === "szeretet" ? SZ.szeretethiany : SZ.jatszani);
     }
     function szomoruSzoveg() {
-        if (alszik()) return randomElem(altatvaVan() ? SZ.eepy : SZ.alszik);
+        if (alszik()) return randomElem(altatvaVan() ? SZ.eepyzek : SZ.alszik);
         const h = hianyzoIgenyek();
         if (h.length && Math.random() < 0.7) return igenySzoveg(randomElem(h));
         return randomElem(SZ.szomoru);
@@ -445,8 +486,11 @@
     }
 
     function boldograValt(szoveg, kep) {
+        if (alszik() || A.altatva) {
+            felebred();
+            if (!szoveg) szoveg = randomElem(SZ.eepyVoltam);
+        }
         A.boldog = true;
-        A.altatva = 0;
         A.utolsoSzeretet = most();
         A.utolsoLatogatas = most();
         simiLepesek = 0;
@@ -471,6 +515,13 @@
         if (A.boldog && t - A.utolsoSzeretet > ORA) A.boldog = false;
 
         let szoveg = null, kep = null;
+        let ebredtSzoveg = null;
+        if (A.altatva && !altatvaVan()) {
+            felebred(A.altatva + (A.altatvaHossz || ALTATAS_HOSSZ));
+            ebredtSzoveg = randomElem(SZ.eepyVoltam);
+        }
+        const ciklus = alvasCiklus();
+        if (ciklus.aludt && !ciklus.most) ebredtSzoveg = randomElem(SZ.eepyVoltam);
         const nsz = napszak();
 
         if (elsoBetoltes) {
@@ -478,6 +529,7 @@
             if (unnep) szoveg = unnep;
         }
         if (!szoveg && A.simiOsszes === 0) szoveg = SZ.elsoSimi;
+        if (!szoveg && ebredtSzoveg && !alszik()) szoveg = ebredtSzoveg;
         if (!szoveg && !A.boldog) {
             if (alszik()) szoveg = null;
             else if (nsz === "reggel" && elteltLatogatas > 3 * ORA) { szoveg = randomElem(SZ.reggel); kep = K.reggel; }
@@ -487,9 +539,11 @@
         }
         if (!szoveg && A.boldog && elteltLatogatas > 3 * ORA) szoveg = "Visszajöttél! 🥰";
 
-        if (alszik()) A.utolsoAlvas = t;
+        if (alszik() && napszak() === "ejjel") A.utolsoEbredes = t;  // éjjel alszik, az is pihenés
         A.utolsoLatogatas = t;
         ment();
+
+        if (ciklus.most && !szoveg) szoveg = randomElem(SZ.eepyzek);
 
         if (A.boldog) {
             if (elsoBetoltes || !aktualisKep) kepBeallit(ujBoldogKep());
@@ -518,13 +572,15 @@
         if (A.boldog && most() - A.utolsoSzeretet > ORA) {
             szomoruraValt();
         } else if (A.altatva && !altatvaVan()) {
-            A.altatva = 0;
-            if (!A.boldog) szomoruraValt();
+            felebred();
+            if (!A.boldog) szomoruraValt(randomElem(SZ.eepyVoltam), randomElem(szomoruKepek));
+        } else if (magatolElalszik()) {
+            /* elaludt */
         } else if (nsz !== utolsoNapszak) {
             napszakAlkalmaz();
             if (!A.boldog) szomoruraValt();
         }
-        if (alszik()) { A.utolsoAlvas = most(); ment(); }
+        if (alszik() && napszak() === "ejjel") { A.utolsoEbredes = most(); ment(); }
         cetliJelzes();
         egyuttFrissit();
         eletFrissit(false);
@@ -745,8 +801,8 @@
         ugrasAnimacio();
         A.boldog = false;
         A.altatva = most();
+        A.altatvaHossz = ALTATAS_HOSSZ;
         szomoruraValt(randomElem(SZ.eepy), randomElem(alvoKepek));
-        igenyTeljesul("utolsoAlvas");
     });
 
     // Etetés
@@ -811,8 +867,17 @@
         el.addEventListener("click", () => {
             const ig = IGENYEK[i];
             ugrasAnimacio();
+            if (ig.kulcs === "szeretet") {
+                // a szeretet-szívet a szívre koppintás tölti fel
+                for (let k = 0; k < 4; k++) setTimeout(() => szivecske(), k * 90);
+                Hang.miau();
+                rezges(15);
+                boldograValt(alszik() ? null : randomElem(SZ.szeretetSziv));
+                igenyTeljesul(ig.mezo);
+                return;
+            }
             if (igenyHianyzik(ig)) mond(igenySzoveg(ig));
-            else mond({ ehes: "Tele a pocim! 🐟💖", eepy: "Kipihentem magam! 😴💖", jatek: "Már játszottunk! 🧶💖" }[ig.kulcs]);
+            else mond({ ehes: "Tele a pocim! 🐟💖", jatek: "Már játszottunk! 🧶💖" }[ig.kulcs]);
         });
     });
 
@@ -851,7 +916,8 @@
     $("cetliGomb").addEventListener("click", () => {
         const i = maiCetliIndex();
         const lista = B.cetlik || [];
-        $("cetliSzoveg").textContent = i >= 0 ? nevvel(lista[i]) : "Ma nincs cetli... de attól még szeretlek! 💙";
+        const sajat = sajatUnnep(maNap());
+        $("cetliSzoveg").textContent = sajat ? sajat.cetli : (i >= 0 ? nevvel(lista[i]) : "Ma nincs cetli... de attól még szeretlek! ❤️");
         $("cetliSzam").textContent = i >= 0 ? `#${i + 1}` : "";
         const mar = A.cetliNyitva === datumKulcs();
         $("boritek").hidden = mar;
@@ -893,10 +959,31 @@
     }
 
     // Visszaadja az ünnepi szöveget, ha ma ünnep van (és első alkalommal konfettit is dob)
+    // Mai nap (teszteléshez: ?ma=2027-06-24)
+    function maNap() {
+        const m = URLP.get("ma");
+        return m && /^\d{4}-\d{2}-\d{2}$/.test(m) ? kulcsbolDatum(m) : new Date();
+    }
+    function hhnn(d) {
+        return String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    }
+    // Anna saját napjai (beallitasok.js): szülinap, névnap
+    function sajatUnnep(ma) {
+        const nev = B.nev || "";
+        if (B.szuletesnap && hhnn(ma) === B.szuletesnap) {
+            return { szoveg: `Boldog születésnapot, ${nev}! 🎂❤️`, cetli: `Boldog születésnapot, ${nev}! 🎂 Ma minden rólad szól. Nagyon-nagyon szeretlek! ❤️`, nagy: true };
+        }
+        if (B.nevnap && hhnn(ma) === B.nevnap) {
+            return { szoveg: `Boldog névnapot, ${nev}! 🌷❤️`, cetli: `Boldog névnapot, ${nev}! 🌷 Ma te vagy a legszebb virág. Szeretlek! ❤️`, nagy: true };
+        }
+        return null;
+    }
+
     function unnepEllenoriz(kenyszeritve) {
-        const ma = new Date();
+        const ma = maNap();
         let szoveg = null, nagy = false;
         const k = kezdoDatum();
+        const sajat = sajatUnnep(ma);
 
         if (k) {
             const kezd = kulcsbolDatum(k);
@@ -911,8 +998,13 @@
                 szoveg = `Boldog hónapfordulót! 💕 (${honapok}. hónap)`;
             }
         }
+        // szülinap / névnap: elöl, és ha aznap más ünnep is van, mindkettő
+        if (sajat) {
+            szoveg = szoveg ? `${sajat.szoveg} ${szoveg}` : sajat.szoveg;
+            nagy = true;
+        }
         if (!szoveg && ma.getMonth() === 11 && ma.getDate() >= 24 && ma.getDate() <= 26) {
-            szoveg = "Boldog karácsonyt! 🎄💙"; nagy = true;
+            szoveg = "Boldog karácsonyt! 🎄❤️"; nagy = true;
         }
         if (URLP.get("evfordulo") === "1" && !szoveg) { szoveg = "Boldog 1. évfordulót! 🎉💖"; nagy = true; }
 
