@@ -81,7 +81,11 @@
     const KULCS = "kekcica.allapot.v2";
     const ORA = 3600 * 1000;
     let A = betolt();
-    ["utolsoEtetes", "utolsoSzeretetSziv", "utolsoJatek", "utolsoEbredes"].forEach((m) => { if (!A[m]) A[m] = Date.now(); });
+    // Első indításkor tele vannak a szívek. Ha az app már használva volt (van korábbi látogatás), de a mező hiányzik
+    // (régi mentés), akkor üres, nem tele: hosszú távollét után mindhárom szív üres.
+    ["utolsoEtetes", "utolsoSzeretetSziv", "utolsoJatek", "utolsoEbredes"].forEach((m) => {
+        if (!A[m]) A[m] = (m !== "utolsoEbredes" && A.utolsoLatogatas) ? 1 : Date.now();
+    });
 
     function betolt() {
         try { return Object.assign(alapAllapot(), JSON.parse(localStorage.getItem(KULCS) || "{}")); }
@@ -916,7 +920,7 @@
     $("cetliGomb").addEventListener("click", () => {
         const i = maiCetliIndex();
         const lista = B.cetlik || [];
-        const sajat = sajatUnnep(maNap());
+        const sajat = egyszeriUnnep(maNap()) || sajatUnnep(maNap());
         $("cetliSzoveg").textContent = sajat ? sajat.cetli : (i >= 0 ? nevvel(lista[i]) : "Ma nincs cetli... de attól még szeretlek! ❤️");
         $("cetliSzam").textContent = i >= 0 ? `#${i + 1}` : "";
         const mar = A.cetliNyitva === datumKulcs();
@@ -967,6 +971,12 @@
     function hhnn(d) {
         return String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
     }
+    // Egyszeri üzenet (beallitasok.js "egyszeri"): csak a megadott teljes dátumon, nem ismétlődik évente
+    function egyszeriUnnep(ma) {
+        const kulcs = ma.getFullYear() + "-" + hhnn(ma);
+        const e = (B.egyszeri || []).find((x) => x.datum === kulcs);
+        return e ? { szoveg: nevvel(e.szoveg), cetli: nevvel(e.cetli) } : null;
+    }
     // Anna saját napjai (beallitasok.js): szülinap, névnap
     function sajatUnnep(ma) {
         const nev = B.nev || "";
@@ -984,8 +994,11 @@
         let szoveg = null, nagy = false;
         const k = kezdoDatum();
         const sajat = sajatUnnep(ma);
+        const egyszeri = egyszeriUnnep(ma);
 
-        if (k) {
+        if (egyszeri) {
+            szoveg = egyszeri.szoveg;     // ezen a napon csak ez az üzenet jelenik meg
+        } else if (k) {
             const kezd = kulcsbolDatum(k);
             const n = napKulonbseg(kezd, ma);
             const evek = ma.getFullYear() - kezd.getFullYear();
@@ -999,7 +1012,7 @@
             }
         }
         // szülinap / névnap: elöl, és ha aznap más ünnep is van, mindkettő
-        if (sajat) {
+        if (sajat && !egyszeri) {
             szoveg = szoveg ? `${sajat.szoveg} ${szoveg}` : sajat.szoveg;
             nagy = true;
         }

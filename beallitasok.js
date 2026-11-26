@@ -12,6 +12,15 @@ window.BEALLITASOK = {
     szuletesnap: "06-24",
     nevnap: "07-26",
 
+    // Egyszeri üzenetek (csak ezeken a konkrét napokon, csak egyszer – jövőre már nem).
+    // Ezeken a napokon ez az üzenet jelenik meg a cetliben és a köszöntőben, a többi nem.
+    // Formátum: datum "ÉÉÉÉ-HH-NN"
+    egyszeri: [
+        { datum: "2026-11-27", szoveg: "Sok sikert a vizsgához, {nev}! 🍀", cetli: "Sok sikert a vizsgához, {nev}! 🍀 Hiszek benned, és szurkolok neked! Szeretlek! ❤️" },
+        { datum: "2026-12-10", szoveg: "Sok sikert a vizsgához, {nev}! 🍀", cetli: "Sok sikert a vizsgához, {nev}! 🍀 Hiszek benned, és szurkolok neked! Szeretlek! ❤️" },
+        { datum: "2026-12-15", szoveg: "Sok sikert a vizsgához, {nev}! 🍀", cetli: "Sok sikert a vizsgához, {nev}! 🍀 Hiszek benned, és szurkolok neked! Szeretlek! ❤️" }
+    ],
+
     // Életcsík (3 szív): ennyi óra után ürül ki egy-egy szív.
     //  ehes: etetés tölti fel · szeretet: a szívecskére koppintás tölti fel · jatek: a gombolyag tölti fel
     igenyekOraban: { ehes: 5, szeretet: 4, jatek: 4 },

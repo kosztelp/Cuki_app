@@ -1,6 +1,6 @@
 // Offline mód: a Kék Cica internet nélkül is működik.
 // Ha új verziót töltesz fel, emeld meg a VERZIO számot.
-const VERZIO = "kekcica-v13";
+const VERZIO = "kekcica-v14";
 const FAJLOK = [
     "./", "index.html", "style.css", "app.js", "beallitasok.js", "manifest.json",
     "apple-touch-icon.png", "ikon-192.png", "ikon-512.png",
