@@ -48,15 +48,15 @@
 
     // {nev} helyére véletlenszerűen az egyik becenév kerül (beallitasok.js)
     const SZ = {
-        szomoru: ["szeress 🥺", "szeress pls 👉👈", "szeress, {nev} 🥺💙", "Szeretetre vágyom... 🥺", "Hiányzik a simi, {nev}... 🥺"],
+        szomoru: ["szeress 🥺", "szeress pls 👉👈", "szeress, {nev} 🥺❤️", "Szeretetre vágyom... 🥺", "Hiányzik a simi, {nev}... 🥺"],
         ehes: ["éhes 🥺", "éhes 🐟🥺", "éhes... 👉👈", "{nev}, éhes 🥺🐟"],
         eepy: ["eepy 😴", "eepy... 💤", "nagyon eepy 🥱", "eepy, jó éjt, {nev} 💤"],
         eepyzek: ["eepyzek... 💤", "eepyzek, pszt 😴", "eepyzek egy kicsit, {nev} 💤", "eepy... 💤"],
-        eepyVoltam: ["eepy voltam 🥱", "eepy voltam, de már itt vagyok! 😊", "eepy voltam... szia, {nev}! 🥱💙"],
+        eepyVoltam: ["eepy voltam 🥱", "eepy voltam, de már itt vagyok! 😊", "eepy voltam... szia, {nev}! 🥱❤️"],
         szeretethiany: ["szeress 🥺", "szeress pls 👉👈", "{nev}, nyomd meg a szívecskét 🥺", "szeretethiányom van 🥺💔"],
         szeretetSziv: ["Köszi a szeretetet! 💖", "Szeretlek, {nev}! 🫶", "Ez kellett! 🥰"],
         boldog: ["Szeretlek, {nev}! 🥰", "Juhúú, ez az! 💖", "Jippii 🥰", "Köszii! Miau! ✨", "Ez nagyon jóóó! 😻", "Te vagy a kedvencem, {nev}! 💕"],
-        karacsonyBoldog: ["Boldog karácsonyt, {nev}! 🎄💙", "Hó-hó-hóóó! 🎅", "Te vagy a legszebb ajándékom, {nev}! 🎁"],
+        karacsonyBoldog: ["Boldog karácsonyt, {nev}! 🎄❤️", "Hó-hó-hóóó! 🎅", "Te vagy a legszebb ajándékom, {nev}! 🎁"],
         reggel: ["Jó reggelt, {nev}! ☀️", "Jó reggelt, {nev}! Szép napot! 🌞", "Ásít... jó reggelt, {nev}! 🥱☀️"],
         este: ["Szép estét, {nev}! 🌙", "Esti simi jöhet, {nev}? 🌙💕"],
         alszik: ["Pszt... alszom 💤", "eepy... 💤", "Zzz... 😴", "Pszt, a cica alszik 🌙"],
@@ -917,7 +917,7 @@
         const i = maiCetliIndex();
         const lista = B.cetlik || [];
         const sajat = sajatUnnep(maNap());
-        $("cetliSzoveg").textContent = sajat ? sajat.cetli : (i >= 0 ? nevvel(lista[i]) : "Ma nincs cetli... de attól még szeretlek! 💙");
+        $("cetliSzoveg").textContent = sajat ? sajat.cetli : (i >= 0 ? nevvel(lista[i]) : "Ma nincs cetli... de attól még szeretlek! ❤️");
         $("cetliSzam").textContent = i >= 0 ? `#${i + 1}` : "";
         const mar = A.cetliNyitva === datumKulcs();
         $("boritek").hidden = mar;
@@ -971,10 +971,10 @@
     function sajatUnnep(ma) {
         const nev = B.nev || "";
         if (B.szuletesnap && hhnn(ma) === B.szuletesnap) {
-            return { szoveg: `Boldog születésnapot, ${nev}! 🎂💙`, cetli: `Boldog születésnapot, ${nev}! 🎂 Ma minden rólad szól. Nagyon-nagyon szeretlek! 💙`, nagy: true };
+            return { szoveg: `Boldog születésnapot, ${nev}! 🎂❤️`, cetli: `Boldog születésnapot, ${nev}! 🎂 Ma minden rólad szól. Nagyon-nagyon szeretlek! ❤️`, nagy: true };
         }
         if (B.nevnap && hhnn(ma) === B.nevnap) {
-            return { szoveg: `Boldog névnapot, ${nev}! 🌷💙`, cetli: `Boldog névnapot, ${nev}! 🌷 Ma te vagy a legszebb virág. Szeretlek! 💙`, nagy: true };
+            return { szoveg: `Boldog névnapot, ${nev}! 🌷❤️`, cetli: `Boldog névnapot, ${nev}! 🌷 Ma te vagy a legszebb virág. Szeretlek! ❤️`, nagy: true };
         }
         return null;
     }
@@ -1004,7 +1004,7 @@
             nagy = true;
         }
         if (!szoveg && ma.getMonth() === 11 && ma.getDate() >= 24 && ma.getDate() <= 26) {
-            szoveg = "Boldog karácsonyt! 🎄💙"; nagy = true;
+            szoveg = "Boldog karácsonyt! 🎄❤️"; nagy = true;
         }
         if (URLP.get("evfordulo") === "1" && !szoveg) { szoveg = "Boldog 1. évfordulót! 🎉💖"; nagy = true; }
 

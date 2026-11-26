@@ -8,7 +8,7 @@ Egy kis kék cica a telefon kezdőképernyőjén, aki szeretetre vágyik.
 - ❤️ **Szeretet**, 😴 **altatás** (eepy, simogatással ébred), 🐟 **etetés** (20 percenként; 5 óra után „éhes”), 🧶 **játék a gombolyaggal**.
 - 💖 **Életcsík (3 szív):** 🐟 éhség (etetés tölti fel), 👆 szeretet (a szívecskére kell koppintani), 🧶 játék (gombolyag). Ha mindhárom tele, a cica ünnepel. Az időket a `beallitasok.js`-ben lehet állítani.
 - 😴 **Alvás:** 10 óra ébrenlét után a cica magától elalszik 1 órára („eepyzek”), utána „eepy voltam”. Az alvás gombbal kézzel is el lehet altatni.
-- 🎂 **Anna napjai:** születésnap (06.24) és névnap (07.26) – ünneplés, konfetti és külön cetli.
+- 🎂 **Szülinap és névnap:** születésnap (06.24) és névnap (07.26) – ünneplés, konfetti és külön cetli.
 - ⏰ **Emlékszik:** egy óra simogatás nélkül elszomorodik. Ha sokáig nem jössz, megmondja, hogy hiányoztál.
 - 💌 **Napi cetli:** minden nap egy új titkos üzenet nyílik ki.
 - 💞 **Együtt X napja:** évfordulón, hónapfordulón és minden 100. napon konfetti jár.

@@ -7,8 +7,8 @@ window.BEALLITASOK = {
     // Mióta vagytok együtt? Formátum: "ÉÉÉÉ-HH-NN"
     kezdoDatum: "2025-04-26",
 
-    // Anna napjai (HH-NN): ezeken a napokon a cica ünnepel, és külön cetli jár.
-    nev: "Anna",
+    // Anna napjai (a cica ezen a néven köszönt) (HH-NN): ezeken a napokon a cica ünnepel, és külön cetli jár.
+    nev: "Cuki",
     szuletesnap: "06-24",
     nevnap: "07-26",
 
@@ -26,7 +26,7 @@ window.BEALLITASOK = {
     // Ha a végére ér, elölről kezdi. Írhatsz bele {nev}-et is, akkor véletlen becenév kerül oda.
     cetlik: [
         "Jó reggelt, Cuki! Legyen ma egy nagyon szép napod! ☀️",
-        "Jó reggelt, Szívem! Ma minden sikerülni fog, hiszek benned. 💙",
+        "Jó reggelt, Szívem! Ma minden sikerülni fog, hiszek benned. ❤️",
         "Szép napot, Hehi! Ne felejts el ma sokat mosolyogni. 😊",
         "Jó reggelt! Valaki már most nagyon gondol rád. 💌",
         "Sok sikert a mai naphoz, Cuki! Ügyes leszel. 💪",
@@ -41,7 +41,7 @@ window.BEALLITASOK = {
         "Jó reggelt! A mai nap szuperereje: a mosolyod. ⚡",
         "Szép napot, Szívem! Nagyon büszke vagyok rád. ✨",
         "Jó reggelt, Cuki! Ma csak jó dolgok történjenek veled. 🌈",
-        "Nem kell ma tökéletesnek lenned, Hehi. Így vagy a legjobb. 💙",
+        "Nem kell ma tökéletesnek lenned, Hehi. Így vagy a legjobb. ❤️",
         "Jó reggelt! Este valaki már nagyon vár rád. 🏡",
         "Szép napot, Szívem! Nevess ma sokat. 😹",
         "Jó reggelt, Cuki! Ma is te vagy a kedvenc emberem. 💕",
@@ -64,6 +64,6 @@ window.BEALLITASOK = {
         "Jó reggelt, Hehi! Ma is ragyogni fogsz. 🌟",
         "Szép napot, Cuki! Már alig várom, hogy újra lássalak. 🥹",
         "Jó reggelt, Szívem! Küldök egy nagy puszit a napod elejére. 😘",
-        "Szép napot, Hehi! Holnap is jövök egy cetlivel. Szeretlek! 💙"
+        "Szép napot, Hehi! Holnap is jövök egy cetlivel. Szeretlek! ❤️"
     ]
 };
