@@ -504,6 +504,12 @@
         alvasFrissit();
     }
 
+    // Simogatás és a nagy ❤️ gomb is feltölti a középső (szeretet) szívet
+    function szeretetSzivTolt() {
+        const volt = igenyHianyzik(IGENYEK[1]);
+        A.utolsoSzeretetSziv = most();
+        if (volt) { ment(); eletFrissit(true); }
+    }
     function szeretetFrissit() {
         A.utolsoSzeretet = most();
         A.utolsoLatogatas = most();
@@ -758,6 +764,7 @@
                 ugrasAnimacio();
                 for (let i = 0; i < 4; i++) setTimeout(() => szivecske(), i * 90);
                 Hang.miau();
+                szeretetSzivTolt();
                 boldograValt();
                 return;
             } else if (t - utolsoMondas > 700) {
@@ -767,6 +774,7 @@
             }
         } else {
             szeretetFrissit();
+            szeretetSzivTolt();
             if (simiLepesek >= 10) {
                 simiLepesek = 0;
                 ugrasAnimacio();
@@ -798,6 +806,7 @@
         rezges(20);
         if (karacsonyVan() && Math.random() < 0.5) boldograValt("Karácsonyi szeretet-roham! 🎄❤️", K.karacsony);
         else boldograValt(randomElem(SZ.szeretet));
+        szeretetSzivTolt();
     });
 
     // Alvás gomb: a cica elalszik (eepy), simogatással lehet felébreszteni
