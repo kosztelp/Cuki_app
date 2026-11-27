@@ -6,7 +6,7 @@ Egy kis kék cica a telefon kezdőképernyőjén, aki szeretetre vágyik.
 
 - 👆 **Simogatás:** az ujjadat húzd végig a cicán. Közben dorombol, és ha eleget simogatod, boldog lesz.
 - ❤️ **Szeretet**, 😴 **altatás** (eepy, simogatással ébred), 🐟 **etetés** (20 percenként; 5 óra után „éhes”), 🧶 **játék a gombolyaggal**.
-- 💖 **Életcsík (3 szív):** 🐟 éhség (etetés tölti fel), 👆 szeretet (a szívecskére kell koppintani), 🧶 játék (gombolyag). Ha mindhárom tele, a cica ünnepel. Az időket a `beallitasok.js`-ben lehet állítani.
+- 💖 **Életcsík (3 szív):** 🐟 éhség (etetés tölti fel), ❤️ szeretet (simogatás, a nagy ❤️ gomb vagy a szívecskére koppintás tölti fel), 🧶 játék (gombolyag). Ha mindhárom tele, a cica ünnepel. Az időket a `beallitasok.js`-ben lehet állítani.
 - 😴 **Alvás:** 10 óra ébrenlét után a cica magától elalszik 1 órára („eepyzek”), utána „eepy voltam”. Az alvás gombbal kézzel is el lehet altatni.
 - 🎂 **Szülinap és névnap:** születésnap (06.24) és névnap (07.26) – a cica a `nev` mezőben megadott néven köszönt (most: Cuki), ünnepel, konfetti és külön cetli jár.
 - 🍀 **Egyszeri üzenetek:** megadott napokra (most: 2026-11-27, 2026-12-10, 2026-12-15 – „Sok sikert a vizsgához”). Azon a napon csak ez jelenik meg, a szokásos cetli és a többi ünnepi szöveg nem. Teljes évszámmal van megadva, ezért jövőre nem ismétlődik.
